@@ -5,6 +5,7 @@ import com.yeexang.community.dto.GithubUser;
 import com.yeexang.community.mapper.UserMapper;
 import com.yeexang.community.provider.GithubProvider;
 import com.yeexang.community.pojo.User;
+import com.yeexang.community.service.UserSev;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class AuthorizeCon {
     private String redirectUri;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserSev userSev;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code, @RequestParam(name = "state") String state,
@@ -51,12 +52,21 @@ public class AuthorizeCon {
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user);
+            user.setAvatarUrl(githubUser.getAvatar_url());
+            userSev.createOrUpdate(user);
             response.addCookie(new Cookie("token", token));
             request.getSession().setAttribute("user", githubUser);
         }
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return "redirect:/";
     }
 }
