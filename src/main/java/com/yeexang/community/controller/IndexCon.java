@@ -1,28 +1,31 @@
 package com.yeexang.community.controller;
 
-import com.yeexang.community.dto.PaginationDTO;
-import com.yeexang.community.mapper.UserMapper;
-import com.yeexang.community.service.QuestionSev;
+import com.github.pagehelper.PageInfo;
+import com.yeexang.community.dto.TopicDTO;
+import com.yeexang.community.pojo.Topic;
+import com.yeexang.community.service.TopicSev;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class IndexCon {
 
     @Autowired
-    private QuestionSev questionSev;
+    private TopicSev topicSev;
 
     @GetMapping("/")
-    public String index(HttpServletRequest request, Model model,
-                        @RequestParam(name = "page", defaultValue = "1") Integer page,
-                        @RequestParam(name = "size", defaultValue = "5") Integer size) {
-        PaginationDTO pagination= questionSev.list(page, size);
-        model.addAttribute("pagination", pagination);
+    public String index(@RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
+                        @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+                        Model model) {
+        PageInfo<Topic> pageInfo = topicSev.getTopicList(pageNum, pageSize);
+        List<TopicDTO> topicDTOList = topicSev.getTopicDTOList(pageInfo.getList());
+        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("topicDTOList", topicDTOList);
         return "index";
     }
 }

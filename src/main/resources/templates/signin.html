@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/jquery-3.5.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body>
+<!-- 导航栏 -->
+<div th:insert="~{navigation :: nav}"></div>
+<!-- 登录 -->
+<div class="container">
+    <div class="row">
+        <!-- 填写登录信息 -->
+        <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: white">
+                <div style="border-bottom: 1px solid #e2e2e2">
+                    <h5>
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;&nbsp;登录
+                    </h5>
+                </div>
+                <div class="form-signin">
+                    <form class="form-horizontal" action="/signin" method="post">
+                        <div class="form-group">
+                            <label for="inputUserName" class="col-sm-2 control-label">用户名</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inputUserName" name="userName" placeholder="请输入用户名" th:value="( (${form} != null)? ${form.userName} : '')">
+                            </div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('userNameIsNull')}">用户名不能为空</div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('userNameIsOutOfRange')}">用户名长度为 3-7 位</div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('userIsNotExist')}">用户名不存在</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-sm-2 control-label">密码</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="请输入密码" th:value="( (${form} != null)? ${form.password} : '')">
+                            </div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('passwordIsNull')}">密码不能为空</div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('passwordIsOutOfRange')}">密码长度为 3-9 位</div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('passwordError')}">密码错误</div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> 记住我
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">登录</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 其他登录方式 -->
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: white">
+                <h5>
+                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;&nbsp;其他登录方式
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

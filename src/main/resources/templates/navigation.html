@@ -1,20 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="nav">
+    <!-- 导航栏 -->
     <nav class="navbar navbar-default">
-        <div class="container-fluid">
+        <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">异想社区</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a class="navbar-brand" href="/">异想社区</a>
             </div>
-
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <form class="navbar-form navbar-left">
                     <div class="form-group">
@@ -22,23 +15,31 @@
                     </div>
                     <button type="submit" class="btn btn-default">搜索</button>
                 </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li th:if="${session.user != null}">
-                        <a href="/publish">提问</a>
+                <ul class="nav navbar-nav navbar-right" th:if="${session.session_user == null}">
+                    <li>
+                        <a href="/">首页</a>
                     </li>
-                    <li class="dropdown" th:if="${session.user != null}">
+                    <li>
+                        <a href="#">注册</a>
+                    </li>
+                    <li>
+                        <a href="/signin">登录</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" th:if="${session.session_user != null}">
+                    <li>
+                        <a href="/publish">发帖</a>
+                    </li>
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                            aria-haspopup="true" aria-expanded="false">
-                            <span th:text="${session.user.getName()}"></span>
+                            <span th:text="${session.session_user.userName}"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/profile/questions">我的问题</a></li>
+                            <li><a href="/profile/topics">我的问题</a></li>
                             <li><a href="/logout">退出登录</a></li>
                         </ul>
-                    </li>
-                    <li th:if="${session.user == null}">
-                        <a href="https://github.com/login/oauth/authorize?client_id=9d5e13ac2f6608c3cfcb&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a>
                     </li>
                 </ul>
             </div>

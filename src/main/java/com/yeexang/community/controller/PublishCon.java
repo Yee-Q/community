@@ -1,14 +1,11 @@
 package com.yeexang.community.controller;
 
-import com.yeexang.community.dto.QuestionDTO;
-import com.yeexang.community.mapper.QuestionMapper;
-import com.yeexang.community.pojo.Question;
+import com.yeexang.community.dto.TopicDTO;
 import com.yeexang.community.pojo.User;
-import com.yeexang.community.service.QuestionSev;
+import com.yeexang.community.service.TopicSev;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelExtensionsKt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,61 +17,71 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishCon {
 
     @Autowired
-    private QuestionSev questionSev;
+    private TopicSev topicSev;
 
-    @GetMapping("/publish/{id}")
-    public String edit(@PathVariable(name = "id") Integer id, Model model) {
-        QuestionDTO question = questionSev.getQuestionById(id);
-        model.addAttribute("title", question.getTitle());
-        model.addAttribute("description", question.getDescription());
-        model.addAttribute("tag", question.getTag());
-        model.addAttribute("id", question.getId());
+    /**
+     * 编辑帖子
+     * @param tid
+     * @param model
+     * @return publish
+     */
+    @GetMapping("/publish/{tid}")
+    public String edit(@PathVariable(name = "tid") Integer tid, Model model) {
+        TopicDTO topicDTO = topicSev.getTopicByTid(tid);
+        model.addAttribute("title", topicDTO.getTitle());
+        model.addAttribute("description", topicDTO.getDescription());
+        model.addAttribute("tag", topicDTO.getTag());
+        model.addAttribute("tid", topicDTO.getTid());
         return "publish";
     }
 
+    /**
+     * 跳转到发布页面
+     * @return publish
+     */
     @GetMapping("/publish")
     public String publish() {
         return "publish";
     }
 
+    /**
+     *
+     * @param title
+     * @param description
+     * @param tag
+     * @param uid
+     * @param request
+     * @param model
+     * @return index
+     */
     @PostMapping("/publish")
     public String doPublish(@RequestParam(value = "title", required = false) String title,
                             @RequestParam(value = "description", required = false) String description,
                             @RequestParam(value = "tag", required = false) String tag,
-                            @RequestParam(value = "id", required = false) Integer id,
+                            @RequestParam(value = "tid", required = false) Integer tid,
                             HttpServletRequest request,
                             Model model) {
-
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
 
-        if (title == null || title.equals("")) {
-            model.addAttribute("error", "标题不能为空");
-            return "publish";
-        } else if (description == null || description.equals("")) {
-            model.addAttribute("error", "问题补充不能为空");
-            return "publish";
-        } else if (tag == null || tag.equals("")) {
-            model.addAttribute("error", "标签不能为空");
-            return "publish";
-        }
-
-        User user = (User) request.getSession().getAttribute("user");
-
-        if (user == null) {
+        User user = (User) request.getSession().getAttribute("session_user");
+        if (user == null) { // 检查用户是否登录
             model.addAttribute("error", "用户未登录");
             return "publish";
         }
+        // 校验帖子信息
+        String error = topicSev.verifyPublishInfo(title, description, tag);
+        if (error != null) {
+            model.addAttribute("error", error);
+            return "publish";
+        }
 
-        Question question = new Question();
-        question.setTitle(title);
-        question.setDescription(description);
-        question.setTag(tag);
-        question.setCreator(user.getId());
-        question.setId(id);
-
-        questionSev.createOrUpdate(question);
+        if (tid == null) {  // 发布帖子
+            topicSev.publishTopic(title, description, tag, user);
+        } else if (tid != null) {   // 更新帖子
+            topicSev.updateTopic(tid, title, description, tag, user);
+        }
 
         return "redirect:/";
     }

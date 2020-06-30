@@ -1,11 +1,12 @@
-package com.yeexang.community.pojo;
+package com.yeexang.community.dto;
 
+import com.yeexang.community.pojo.User;
 import lombok.Data;
 
 @Data
-public class Question {
+public class TopicDTO {
 
-    private Integer id;
+    private Integer tid;
     private String title;
     private String description;
     private String tag;
@@ -15,5 +16,5 @@ public class Question {
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
-
+    private User user;
 }

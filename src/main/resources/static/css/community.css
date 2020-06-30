@@ -1,10 +1,14 @@
 body {
-    background-color: #efefef;
+    background-color: #e2e2e2;
 }
 
-.main {
-    background-color: white;
-    margin: 30px;
+.form-signin {
+    padding: 25px;
+}
+
+.alter-danger-mini {
+    padding: 5px;
+    margin-bottom: 0px;
 }
 
 .btn-publish {
@@ -25,9 +29,4 @@ body {
 
 .profile .section {
     margin-top: 15px;
-}
-
-.community-menu {
-    color: #999999;
-    font-size: 13px;
 }
