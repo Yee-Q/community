@@ -3,6 +3,8 @@ package com.yeexang.community.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yeexang.community.dto.TopicDTO;
+import com.yeexang.community.exception.CustomizeErrorCode;
+import com.yeexang.community.exception.CustomizeException;
 import com.yeexang.community.mapper.TopicMapper;
 import com.yeexang.community.mapper.UserMapper;
 import com.yeexang.community.pojo.Topic;
@@ -77,6 +79,9 @@ public class TopicSev {
      */
     public TopicDTO getTopicByTid(Integer tid) {
         Topic topic = topicMapper.selectTopicByTid(tid);
+        if (topic == null) {
+            throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
+        }
         TopicDTO topicDTO = new TopicDTO();
         BeanUtils.copyProperties(topic, topicDTO);
         User user = userMapper.selectUserById(topic.getCreator());
@@ -93,6 +98,9 @@ public class TopicSev {
      * @param user
      */
     public void updateTopic(Integer tid, String title, String description, String tag, User user) {
+        if (topicMapper.selectTopicByTid(tid) == null) {
+            throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
+        }
         Topic topic = new Topic();
         topic.setTid(tid);
         topic.setTitle(title);

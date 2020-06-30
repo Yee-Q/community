@@ -49,7 +49,7 @@ public class PublishCon {
      * @param title
      * @param description
      * @param tag
-     * @param uid
+     * @param tid
      * @param request
      * @param model
      * @return index
