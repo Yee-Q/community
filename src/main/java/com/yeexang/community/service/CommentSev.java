@@ -7,6 +7,7 @@ import com.yeexang.community.pojo.Topic;
 import com.yeexang.community.utils.ErrorConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommentSev {
@@ -17,6 +18,7 @@ public class CommentSev {
     @Autowired
     private TopicMapper topicMapper;
 
+    @Transactional
     public String addComment(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             return ErrorConstant.TARGET_PARAM_NOT_FOUND;
