@@ -1,5 +1,7 @@
 package com.yeexang.community.controller;
 
+import com.yeexang.community.dto.ErrorMsgDTO;
+import com.yeexang.community.utils.Constant;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,12 +24,15 @@ public class CustomizeErrorCon implements ErrorController {
 
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView errorHtml(HttpServletRequest request, Model model) {
+        ErrorMsgDTO error = new ErrorMsgDTO();
         HttpStatus status = getStatus(request);
         if (status.is4xxClientError()) {
-            model.addAttribute("message", "你这个请求出错了，要不换个姿势试试？");
+            error.setCustomizeExMsg(Constant.REQUEST_ERROR);
+            model.addAttribute("error", error);
         }
         if (status.is5xxServerError()) {
-            model.addAttribute("message", "服务器太热了，要不然你稍后再试试？");
+            error.setCustomizeExMsg(Constant.DEFAULT_ERROR_MSG);
+            model.addAttribute("error", error);
         }
         return new ModelAndView("error");
     }

@@ -43,6 +43,13 @@ public interface TopicMapper {
     void updateTopic(Topic topic);
 
     /**
+     * 更新帖子浏览数
+     * @param tid
+     */
+    @Update("UPDATE topic SET view_count = view_count + 1 WHERE tid = #{tid}")
+    void updateTopicViewCountByTid(Integer tid);
+
+    /**
      * 获取指定帖子
      * @param tid
      * @return Topic
@@ -64,4 +71,6 @@ public interface TopicMapper {
      */
     @Select("SELECT * FROM topic WHERE creator = #{uid}")
     List<Topic> selectTopicsByUid(Integer uid);
+
+
 }

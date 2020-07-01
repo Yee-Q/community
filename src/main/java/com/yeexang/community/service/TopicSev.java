@@ -3,12 +3,12 @@ package com.yeexang.community.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yeexang.community.dto.TopicDTO;
-import com.yeexang.community.exception.CustomizeErrorCode;
 import com.yeexang.community.exception.CustomizeException;
 import com.yeexang.community.mapper.TopicMapper;
 import com.yeexang.community.mapper.UserMapper;
 import com.yeexang.community.pojo.Topic;
 import com.yeexang.community.pojo.User;
+import com.yeexang.community.utils.Constant;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,7 +80,7 @@ public class TopicSev {
     public TopicDTO getTopicByTid(Integer tid) {
         Topic topic = topicMapper.selectTopicByTid(tid);
         if (topic == null) {
-            throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
+            throw new CustomizeException(Constant.TOPIC_NOT_FOUND);
         }
         TopicDTO topicDTO = new TopicDTO();
         BeanUtils.copyProperties(topic, topicDTO);
@@ -99,7 +99,7 @@ public class TopicSev {
      */
     public void updateTopic(Integer tid, String title, String description, String tag, User user) {
         if (topicMapper.selectTopicByTid(tid) == null) {
-            throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
+            throw new CustomizeException(Constant.TOPIC_NOT_FOUND);
         }
         Topic topic = new Topic();
         topic.setTid(tid);
@@ -147,5 +147,11 @@ public class TopicSev {
         return null;
     }
 
-
+    /**
+     * 增加帖子阅读数
+     * @param tid
+     */
+    public void incView(Integer tid) {
+        topicMapper.updateTopicViewCountByTid(tid);
+    }
 }

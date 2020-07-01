@@ -17,6 +17,8 @@ public class TopicCon {
     @GetMapping("/topic/{tid}")
     public String topic(@PathVariable(name = "tid") Integer tid,
                            Model model) {
+        // 增加帖子阅读数
+        topicSev.incView(tid);
         TopicDTO topicDTO = topicSev.getTopicByTid(tid);
         model.addAttribute("topicDTO", topicDTO);
         return "topic";

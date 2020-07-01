@@ -1,5 +1,6 @@
 package com.yeexang.community.controller;
 
+import com.yeexang.community.dto.ErrorMsgDTO;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.service.UserSev;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class UserCon {
     @PostMapping("/signin")
     public String signin(User user, Map<String, Object> map, HttpServletResponse response) {
 
-        String error = userSev.verifySigninInfo(user);  // 登录信息校验
+        ErrorMsgDTO error = userSev.verifySigninInfo(user);  // 登录信息校验
         if (error != null) {    // 校验错误
             map.put("error", error);
             map.put("form", user);

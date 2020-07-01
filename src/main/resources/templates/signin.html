@@ -30,18 +30,18 @@
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="inputUserName" name="userName" placeholder="请输入用户名" th:value="( (${form} != null)? ${form.userName} : '')">
                             </div>
-                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('userNameIsNull')}">用户名不能为空</div>
-                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('userNameIsOutOfRange')}">用户名长度为 3-7 位</div>
-                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('userIsNotExist')}">用户名不存在</div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.userNameIsNull != null}" th:text="${error.userNameIsNull}"></div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.userNameIsOutOfRange != null}" th:text="${error.userNameIsOutOfRange}"></div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.userIsNotExist != null}" th:text="${error.userIsNotExist}"></div>
                         </div>
                         <div class="form-group">
                             <label for="inputPassword" class="col-sm-2 control-label">密码</label>
                             <div class="col-sm-6">
                                 <input type="password" class="form-control" id="inputPassword" name="password" placeholder="请输入密码" th:value="( (${form} != null)? ${form.password} : '')">
                             </div>
-                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('passwordIsNull')}">密码不能为空</div>
-                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('passwordIsOutOfRange')}">密码长度为 3-9 位</div>
-                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.equals('passwordError')}">密码错误</div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.passwordIsNull != null}" th:text="${error.passwordIsNull}"></div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.passwordIsOutOfRange != null}" th:text="${error.passwordIsOutOfRange}"></div>
+                            <div class="col-sm-4 alert alert-danger alter-danger-mini" th:if="${error != null && error.passwordError != null}" th:text="${error.passwordError}"></div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
