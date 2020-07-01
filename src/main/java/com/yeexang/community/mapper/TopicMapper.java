@@ -1,9 +1,7 @@
 package com.yeexang.community.mapper;
 
-import com.yeexang.community.dto.TopicDTO;
 import com.yeexang.community.pojo.Topic;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -47,7 +45,14 @@ public interface TopicMapper {
      * @param tid
      */
     @Update("UPDATE topic SET view_count = view_count + 1 WHERE tid = #{tid}")
-    void updateTopicViewCountByTid(Integer tid);
+    void updateTopicViewCountByTid(Long tid);
+
+    /**
+     * 更新帖子评论数
+     * @param tid
+     */
+    @Update("UPDATE topic SET comment_count = comment_count + 1 WHERE tid = #{tid}")
+    void updateTopicCommentCountByTid(Long tid);
 
     /**
      * 获取指定帖子
@@ -55,7 +60,7 @@ public interface TopicMapper {
      * @return Topic
      */
     @Select("SELECT * FROM topic WHERE tid = #{tid}")
-    Topic selectTopicByTid(Integer tid);
+    Topic selectTopicByTid(Long tid);
 
     /**
      * 获取所有帖子列表
@@ -70,7 +75,7 @@ public interface TopicMapper {
      * @return List<Topic>
      */
     @Select("SELECT * FROM topic WHERE creator = #{uid}")
-    List<Topic> selectTopicsByUid(Integer uid);
+    List<Topic> selectTopicsByUid(Long uid);
 
 
 }

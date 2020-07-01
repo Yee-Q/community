@@ -15,7 +15,7 @@ public class TopicCon {
     private TopicSev topicSev;
 
     @GetMapping("/topic/{tid}")
-    public String topic(@PathVariable(name = "tid") Integer tid,
+    public String topic(@PathVariable(name = "tid") Long tid,
                            Model model) {
         // 增加帖子阅读数
         topicSev.incView(tid);

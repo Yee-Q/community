@@ -26,7 +26,7 @@ public class PublishCon {
      * @return publish
      */
     @GetMapping("/publish/{tid}")
-    public String edit(@PathVariable(name = "tid") Integer tid, Model model) {
+    public String edit(@PathVariable(name = "tid") Long tid, Model model) {
         TopicDTO topicDTO = topicSev.getTopicByTid(tid);
         model.addAttribute("title", topicDTO.getTitle());
         model.addAttribute("description", topicDTO.getDescription());
@@ -58,7 +58,7 @@ public class PublishCon {
     public String doPublish(@RequestParam(value = "title", required = false) String title,
                             @RequestParam(value = "description", required = false) String description,
                             @RequestParam(value = "tag", required = false) String tag,
-                            @RequestParam(value = "tid", required = false) Integer tid,
+                            @RequestParam(value = "tid", required = false) Long tid,
                             HttpServletRequest request,
                             Model model) {
         model.addAttribute("title", title);

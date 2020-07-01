@@ -34,7 +34,7 @@ public interface UserMapper {
      * @return User
      */
     @Select("SELECT * FROM user WHERE uid = #{uid}")
-    User selectUserById(Integer uid);
+    User selectUserById(Long uid);
 
     @Select("SELECT * FROM user WHERE account_id = #{accountId}")
     User findByAccountId(String accountId);
@@ -48,5 +48,5 @@ public interface UserMapper {
      * @param token
      */
     @Update("UPDATE user SET token = #{token} WHERE uid = #{uid}")
-    void updateTookenByUid(int uid, String token);
+    void updateTookenByUid(Long uid, String token);
 }

@@ -12,4 +12,6 @@ public class ErrorMsgDTO {
     private String passwordIsOutOfRange;
     private String passwordError;
     private String customizeExMsg;
+    private String noLoggedIn;
+    private String targetParamNotFound;
 }

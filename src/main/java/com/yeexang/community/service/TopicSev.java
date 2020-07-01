@@ -8,7 +8,7 @@ import com.yeexang.community.mapper.TopicMapper;
 import com.yeexang.community.mapper.UserMapper;
 import com.yeexang.community.pojo.Topic;
 import com.yeexang.community.pojo.User;
-import com.yeexang.community.utils.Constant;
+import com.yeexang.community.utils.ErrorConstant;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class TopicSev {
      * @param pageSize
      * @return PageInfo<Topic>
      */
-    public PageInfo<Topic> getTopicListByUid(Integer uid, Integer pageNum, Integer pageSize) {
+    public PageInfo<Topic> getTopicListByUid(Long uid, Integer pageNum, Integer pageSize) {
 
         PageHelper.startPage(pageNum, pageSize);
         List<Topic> topicList = topicMapper.selectTopicsByUid(uid);
@@ -77,10 +77,10 @@ public class TopicSev {
      * @param tid
      * @return TopicDTO
      */
-    public TopicDTO getTopicByTid(Integer tid) {
+    public TopicDTO getTopicByTid(Long tid) {
         Topic topic = topicMapper.selectTopicByTid(tid);
         if (topic == null) {
-            throw new CustomizeException(Constant.TOPIC_NOT_FOUND);
+            throw new CustomizeException(ErrorConstant.TOPIC_NOT_FOUND);
         }
         TopicDTO topicDTO = new TopicDTO();
         BeanUtils.copyProperties(topic, topicDTO);
@@ -97,9 +97,9 @@ public class TopicSev {
      * @param tag
      * @param user
      */
-    public void updateTopic(Integer tid, String title, String description, String tag, User user) {
+    public void updateTopic(Long tid, String title, String description, String tag, User user) {
         if (topicMapper.selectTopicByTid(tid) == null) {
-            throw new CustomizeException(Constant.TOPIC_NOT_FOUND);
+            throw new CustomizeException(ErrorConstant.TOPIC_NOT_FOUND);
         }
         Topic topic = new Topic();
         topic.setTid(tid);
@@ -151,7 +151,7 @@ public class TopicSev {
      * 增加帖子阅读数
      * @param tid
      */
-    public void incView(Integer tid) {
+    public void incView(Long tid) {
         topicMapper.updateTopicViewCountByTid(tid);
     }
 }
