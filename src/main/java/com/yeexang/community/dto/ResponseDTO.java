@@ -3,7 +3,9 @@ package com.yeexang.community.dto;
 import lombok.Data;
 
 @Data
-public class ErrorMsgDTO {
+public class ResponseDTO {
+
+    private Boolean status;
 
     private String userNameIsNull;
     private String userNameIsOutOfRange;

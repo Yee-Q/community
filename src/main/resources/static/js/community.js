@@ -11,8 +11,18 @@ function post() {
             "content": content,
             "type": 1
         }),
-        success: function (response) {
-            console.log(response);
+        success: function (responseDTO) {
+            if (responseDTO.status) {
+                $("#comment-content").val('');
+            } else {
+                if (responseDTO.noLoggedIn != null && responseDTO.noLoggedIn != "") {
+                    let isAccepted = confirm(responseDTO.noLoggedIn);
+                    if (isAccepted) {
+                        window.open("/signin");
+                        window.localStorage.setItem("closable", true);
+                    }
+                }
+            }
         }
     });
 }

@@ -1,6 +1,6 @@
 package com.yeexang.community.advice;
 
-import com.yeexang.community.dto.ErrorMsgDTO;
+import com.yeexang.community.dto.ResponseDTO;
 import com.yeexang.community.exception.CustomizeException;
 import com.yeexang.community.utils.ErrorConstant;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,7 +16,7 @@ public class CustomizeExceptionHandler {
     public ModelAndView handle(HttpServletRequest request, Exception ex) {
         ModelAndView mv = new ModelAndView();
         String contentType = request.getContentType();
-        ErrorMsgDTO error = new ErrorMsgDTO();
+        ResponseDTO error = new ResponseDTO();
         if (ex instanceof CustomizeException) {
             error.setCustomizeExMsg(ex.getMessage());
             mv.addObject("error", error);

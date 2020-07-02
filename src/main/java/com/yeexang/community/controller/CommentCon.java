@@ -1,7 +1,7 @@
 package com.yeexang.community.controller;
 
 import com.yeexang.community.dto.CommentDTO;
-import com.yeexang.community.dto.ErrorMsgDTO;
+import com.yeexang.community.dto.ResponseDTO;
 import com.yeexang.community.pojo.Comment;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.service.CommentSev;
@@ -25,13 +25,13 @@ public class CommentCon {
 
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public Object post(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
+    public ResponseDTO post(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("session_user");
-        ErrorMsgDTO errorMsgDTO = new ErrorMsgDTO();
+        ResponseDTO responseDTO = new ResponseDTO();
         if (user == null) {
-            errorMsgDTO.setNoLoggedIn(ErrorConstant.NO_LOGGED_IN);
-            return errorMsgDTO;
+            responseDTO.setNoLoggedIn(ErrorConstant.NO_LOGGED_IN);
+            return responseDTO;
         }
         Comment comment = new Comment();
         comment.setParentId(commentDTO.getParentId());
@@ -43,11 +43,10 @@ public class CommentCon {
         comment.setLikeCount(0L);
         String error = commentSev.addComment(comment);
         if (error != null) {
-            errorMsgDTO.setTargetParamNotFound(error);
-            return errorMsgDTO;
+            responseDTO.setTargetParamNotFound(error);
+            return responseDTO;
         }
-        Map<Object, Object> objectObjectMap = new HashMap<>();
-        objectObjectMap.put("message", "成功");
-        return objectObjectMap;
+        responseDTO.setStatus(true);
+        return responseDTO;
     }
 }

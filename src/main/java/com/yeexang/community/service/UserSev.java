@@ -1,6 +1,6 @@
 package com.yeexang.community.service;
 
-import com.yeexang.community.dto.ErrorMsgDTO;
+import com.yeexang.community.dto.ResponseDTO;
 import com.yeexang.community.mapper.UserMapper;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.utils.ErrorConstant;
@@ -18,8 +18,8 @@ public class UserSev {
      *
      * @return
      */
-    public ErrorMsgDTO verifySigninInfo(User user) {
-        ErrorMsgDTO error = new ErrorMsgDTO();
+    public ResponseDTO verifySigninInfo(User user) {
+        ResponseDTO error = new ResponseDTO();
         if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
             error.setUserNameIsNull(ErrorConstant.USERNAME_IS_NULL);
             return error;

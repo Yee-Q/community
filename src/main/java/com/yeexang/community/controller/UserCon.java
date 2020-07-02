@@ -1,6 +1,6 @@
 package com.yeexang.community.controller;
 
-import com.yeexang.community.dto.ErrorMsgDTO;
+import com.yeexang.community.dto.ResponseDTO;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.service.UserSev;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.UUID;
@@ -33,13 +35,15 @@ public class UserCon {
 
     /**
      * 登录
-     *
-     * @return signin
+     * @param user
+     * @param map
+     * @param response
+     * @return index
      */
     @PostMapping("/signin")
     public String signin(User user, Map<String, Object> map, HttpServletResponse response) {
 
-        ErrorMsgDTO error = userSev.verifySigninInfo(user);  // 登录信息校验
+        ResponseDTO error = userSev.verifySigninInfo(user);  // 登录信息校验
         if (error != null) {    // 校验错误
             map.put("error", error);
             map.put("form", user);
@@ -52,6 +56,22 @@ public class UserCon {
         map.put("session_user", session_user);
         Cookie cookie = new Cookie("token", token);
         cookie.setMaxAge(60 * 60 * 24 * 30 * 6);
+        response.addCookie(cookie);
+        return "redirect:/";
+    }
+
+    /**
+     * 登出
+     * @param sessionStatus
+     * @param response
+     * @return index
+     */
+    @GetMapping("/logout")
+    public String logout(SessionStatus sessionStatus,
+                         HttpServletResponse response) {
+        sessionStatus.setComplete();
+        Cookie cookie = new Cookie("token", "");
+        cookie.setMaxAge(0);
         response.addCookie(cookie);
         return "redirect:/";
     }
