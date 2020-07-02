@@ -8,6 +8,7 @@ import com.yeexang.community.service.CommentSev;
 import com.yeexang.community.utils.ErrorConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,10 +28,17 @@ public class CommentCon {
 
         User user = (User) request.getSession().getAttribute("session_user");
         ResponseDTO responseDTO = new ResponseDTO();
+
         if (user == null) {
             responseDTO.setNoLoggedIn(ErrorConstant.NO_LOGGED_IN);
             return responseDTO;
         }
+
+        if (commentCreateDTO == null || StringUtils.isEmpty(commentCreateDTO.getContent().trim())) {
+            responseDTO.setContentIsEmpty(ErrorConstant.CONTENT_IS_EMPTY);
+            return responseDTO;
+        }
+
         Comment comment = new Comment();
         comment.setParentId(commentCreateDTO.getParentId());
         comment.setContent(commentCreateDTO.getContent());

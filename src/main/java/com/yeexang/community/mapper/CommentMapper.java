@@ -25,7 +25,7 @@ public interface CommentMapper {
      * @param tid
      * @return Comment
      */
-    @Select("SELECT * FROM comment WHERE parent_id = #{tid} AND type = 1")
+    @Select("SELECT * FROM comment WHERE parent_id = #{tid} AND type = 1 ORDER BY gmt_create")
     List<Comment> selectCommentByIdAndType(Long tid);
 
     /**

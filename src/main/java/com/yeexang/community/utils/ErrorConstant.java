@@ -57,4 +57,8 @@ public class ErrorConstant {
      * 评论不存在
      */
     public static final String COMMENT_NOT_FOUND = "评论不存在";
+    /**
+     * 评论内容为空
+     */
+    public static final String CONTENT_IS_EMPTY = "评论内容为空";
 }

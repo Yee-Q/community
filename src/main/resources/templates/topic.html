@@ -43,9 +43,28 @@
                         <p class="media-heading"><a href="#" style="text-decoration: none"><strong th:text="${commentDTO.user.userName}"></strong></a><p/>
                         <p th:text="${commentDTO.content}"></p>
                         <div style="color: #999;">
-                            <span class="glyphicon glyphicon-thumbs-up icon"></span>&nbsp;&nbsp;
-                            <span class="glyphicon glyphicon-comment icon"></span>
-                            <span class="pull-right" th:text="${#dates.format(topicDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                            <span class="glyphicon glyphicon-comment icon" th:data-id="${commentDTO.cid}" onclick="collapseComment(this)"></span>&nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                            <span class="pull-right text-desc" th:text="${#dates.format(commentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                        </div>
+                        <div class="collapse" th:id="${'comment-' + commentDTO.cid}" style="margin-top: 10px; margin-bottom: 10px; border: 1px solid #e2e2e2; padding: 15px 15px 40px; border-radius: 5px">
+                            <!-- 二级评论 -->
+                            <div class="media" th:each="commentDTO : ${comemntDTOList}">
+                                <div class="media-left media-top">
+                                    <a href="#">
+                                        <img class="media-object img-rounded" th:src="${commentDTO.user.avatarUrl}" style="width: 50px; height: 50px;">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <p class="media-heading">
+                                        <a href="#" style="text-decoration: none"><strong th:text="${commentDTO.user.userName}"></strong></a>
+                                        <span style="color: #999; margin-left: 10px;" class="text-desc" th:text="${#dates.format(commentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                                    <p/>
+                                    <p th:text="${commentDTO.content}"></p>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="评论一下" style="margin-top: 10px; margin-bottom: 10px">
+                            <button type="button" class="btn btn-success btn-sm pull-right">发布</button>
                         </div>
                     </div>
                 </div>

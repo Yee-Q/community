@@ -16,4 +16,6 @@ public class ResponseDTO {
     private String customizeExMsg;
     private String noLoggedIn;
     private String targetParamNotFound;
+    private String CommentNotFound;
+    private String ContentIsEmpty;
 }

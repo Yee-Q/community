@@ -23,7 +23,6 @@ data: JSON.stringify({
 使用 SessionStatus sessionStatus 属性，sessionStatus.setComplete() 可以成功销毁
 4.mybatis 中标签不能大写
 
-
 ### 优化日志
 1. 使用 HTML5 web 存储来保存信息，实现不刷新页面登录 41-1
 使用HTML5可以在本地存储用户的浏览数据。
@@ -31,8 +30,7 @@ data: JSON.stringify({
 数据以 键/值 对存在, web网页的数据只允许该网页访问使用。
 https://www.runoob.com/html/html5-webstorage.html   // 菜鸟教程
 2. 实现状态栏动态更新用户信息  -- ToDo
-3. 实现回复列表的功能 
-
+3. 实现回复列表的功能  42
 
 ### 学到了
 js函数可以使用在某行加上 debugger; 作为断点
