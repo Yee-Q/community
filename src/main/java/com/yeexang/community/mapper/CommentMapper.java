@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface CommentMapper {
@@ -17,6 +19,14 @@ public interface CommentMapper {
      */
     @Select("SELECT * FROM comment WHERE cid = #{parentId}")
     Comment selectCommentById(Long parentId);
+
+    /**
+     * 根据父类 ID 和类型查找评论
+     * @param tid
+     * @return Comment
+     */
+    @Select("SELECT * FROM comment WHERE parent_id = #{tid} AND type = 1")
+    List<Comment> selectCommentByIdAndType(Long tid);
 
     /**
      * 添加评论

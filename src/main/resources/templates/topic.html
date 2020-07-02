@@ -28,11 +28,33 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: white; padding: 15px; margin-bottom: 15px">
                 <span th:text="${topicDTO.description}"></span>
             </div>
+            <!-- 回复 -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: white; padding: 15px; border-bottom: 1px solid #e2e2e2">
+                <span th:text="${topicDTO.commentCount}"></span> 条回复
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: white; padding: 15px; margin-bottom: 15px">
+                <div class="media" th:each="commentDTO : ${comemntDTOList}">
+                    <div class="media-left media-top">
+                        <a href="#">
+                            <img class="media-object img-rounded" th:src="${commentDTO.user.avatarUrl}" style="width: 50px; height: 50px;">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <p class="media-heading"><a href="#" style="text-decoration: none"><strong th:text="${commentDTO.user.userName}"></strong></a><p/>
+                        <p th:text="${commentDTO.content}"></p>
+                        <div style="color: #999;">
+                            <span class="glyphicon glyphicon-thumbs-up icon"></span>&nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-comment icon"></span>
+                            <span class="pull-right" th:text="${#dates.format(topicDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: white; padding: 15px;">
                 <div style="margin-bottom: 15px" >发表一条新回复</div>
                 <input type="hidden" id="tid" th:value="${topicDTO.tid}" />
                 <div style="margin-bottom: 15px">
-                    <textarea class="form-control" rows="3" id="comment-content"></textarea>
+                    <textarea class="form-control" rows="3" id="comment-content" style="resize: none"></textarea>
                 </div>
                 <span class="pull-left">
                     请尽量让自己的回复能够对别人有帮助

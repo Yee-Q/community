@@ -1,6 +1,6 @@
 package com.yeexang.community.controller;
 
-import com.yeexang.community.dto.CommentDTO;
+import com.yeexang.community.dto.CommentCreateDTO;
 import com.yeexang.community.dto.ResponseDTO;
 import com.yeexang.community.pojo.Comment;
 import com.yeexang.community.pojo.User;
@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class CommentCon {
@@ -25,7 +23,7 @@ public class CommentCon {
 
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public ResponseDTO post(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
+    public ResponseDTO post(@RequestBody CommentCreateDTO commentCreateDTO, HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("session_user");
         ResponseDTO responseDTO = new ResponseDTO();
@@ -34,9 +32,9 @@ public class CommentCon {
             return responseDTO;
         }
         Comment comment = new Comment();
-        comment.setParentId(commentDTO.getParentId());
-        comment.setContent(commentDTO.getContent());
-        comment.setType(commentDTO.getType());
+        comment.setParentId(commentCreateDTO.getParentId());
+        comment.setContent(commentCreateDTO.getContent());
+        comment.setType(commentCreateDTO.getType());
         comment.setGmtModified(System.currentTimeMillis());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setCommentator(user.getUid());

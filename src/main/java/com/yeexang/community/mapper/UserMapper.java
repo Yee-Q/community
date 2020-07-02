@@ -4,9 +4,26 @@ import com.yeexang.community.pojo.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface UserMapper {
+
+    /**
+     * 根据 UID 列表返回用户列表
+     * @param userIds
+     * @return
+     */
+    @Select({
+            "<script>",
+                "SELECT * FROM user WHERE uid IN",
+                "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>",
+                    "#{item}",
+                "</foreach>",
+            "</script>"
+    })
+    List<User> selectUserByUidList(List<Long> userIds);
 
     @Insert("INSERT INTO user (name, account_id, token, gmt_create, gmt_modified, avatar_url) " +
             "VALUES (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified}, #{avatarUrl})")
