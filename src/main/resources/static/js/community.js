@@ -20,12 +20,12 @@ function post() {
             "content": content,
             "type": 1
         }),
-        success: function (responseDTO) {
-            if (responseDTO.status) {
+        success: function (resultDTO) {
+            if (resultDTO.status) {
                 window.location.reload();
             } else {
-                if (responseDTO.noLoggedIn != null && responseDTO.noLoggedIn != "") {
-                    let isAccepted = confirm(responseDTO.noLoggedIn);
+                if (resultDTO.errorMsg != null && resultDTO.errorMsg === "noLoggedIn") {
+                    let isAccepted = confirm("请先登录再进行操作");
                     if (isAccepted) {
                         window.open("/signin");
                         window.localStorage.setItem("closable", true);

@@ -1,0 +1,71 @@
+package com.yeexang.community.dto;
+
+public class ResultDTO<T> {
+
+    // true 为成功，false 为失败
+    private Boolean status;
+    // 错误信息
+    private String errorMsg;
+    // 返回的数据
+    private T data;
+
+    /**
+     * 请求成功
+     * @return ResultDTO
+     */
+    public static <T> ResultDTO<T> getSuccessResult() {
+        ResultDTO<T> resultDTO = new ResultDTO<>();
+        resultDTO.setStatus(true);
+        return resultDTO;
+    }
+
+    /**
+     *
+     * 请求失败
+     * @return ResultDTO
+     */
+    public static <T> ResultDTO<T> getErrorResult() {
+        ResultDTO<T> resultDTO = new ResultDTO<>();
+        resultDTO.setStatus(false);
+        return resultDTO;
+    }
+
+    /**
+     * 请求失败并返回错误信息
+     * @param errorMsg
+     * @return ResultDTO
+     */
+    public static <T> ResultDTO<T> getErrorResult(String errorMsg) {
+        ResultDTO<T> resultDTO = new ResultDTO<>();
+        resultDTO.setStatus(false);
+        resultDTO.setErrorMsg(errorMsg);
+        return resultDTO;
+    }
+
+    private ResultDTO() {
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    private void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    private void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    private void setData(T data) {
+        this.data = data;
+    }
+}

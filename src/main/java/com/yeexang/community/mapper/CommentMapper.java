@@ -22,11 +22,12 @@ public interface CommentMapper {
 
     /**
      * 根据父类 ID 和类型查找评论
+     * 默认按时间升序排序
      * @param tid
      * @return Comment
      */
-    @Select("SELECT * FROM comment WHERE parent_id = #{tid} AND type = 1 ORDER BY gmt_create")
-    List<Comment> selectCommentByIdAndType(Long tid);
+    @Select("SELECT * FROM comment WHERE parent_id = #{tid} AND type = #{type} ORDER BY gmt_create")
+    List<Comment> selectCommentByIdAndType(Long tid, Integer type);
 
     /**
      * 添加评论

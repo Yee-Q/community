@@ -28,7 +28,7 @@ public class TopicCon {
         topicSev.incView(tid);
         TopicDTO topicDTO = topicSev.getTopicByTid(tid);
         // 返回帖子评论列表
-        List<CommentDTO> commentConDTOList = commentSev.getCommentList(tid);
+        List<CommentDTO> commentConDTOList = commentSev.getCommentList(tid, 1);
         model.addAttribute("topicDTO", topicDTO);
         model.addAttribute("comemntDTOList", commentConDTOList);
         return "topic";

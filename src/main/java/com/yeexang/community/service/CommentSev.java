@@ -36,7 +36,7 @@ public class CommentSev {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             return ErrorConstant.TARGET_PARAM_NOT_FOUND;
         } else if (comment.getType() == null || comment.getType() == 0) {
-            return ErrorConstant.TYPE_PARAM_WRONG;
+            return ErrorConstant.TYPE_PARAM_ERROR;
         } else {
             if (comment.getType() == 1) {
                 // 回复评论
@@ -63,9 +63,9 @@ public class CommentSev {
      * @param tid
      * @return
      */
-    public List<CommentDTO> getCommentList(Long tid) {
+    public List<CommentDTO> getCommentList(Long tid, Integer type) {
 
-        List<Comment> commentList = commentMapper.selectCommentByIdAndType(tid);
+        List<Comment> commentList = commentMapper.selectCommentByIdAndType(tid, type);
         if (commentList.size() == 0) {
             return new ArrayList<>();
         }

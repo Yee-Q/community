@@ -1,6 +1,6 @@
 package com.yeexang.community.service;
 
-import com.yeexang.community.dto.ResponseDTO;
+import com.yeexang.community.dto.ResultDTO;
 import com.yeexang.community.mapper.UserMapper;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.utils.ErrorConstant;
@@ -18,29 +18,22 @@ public class UserSev {
      *
      * @return
      */
-    public ResponseDTO verifySigninInfo(User user) {
-        ResponseDTO error = new ResponseDTO();
+    public ResultDTO verifySigninInfo(User user) {
         if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
-            error.setUserNameIsNull(ErrorConstant.USERNAME_IS_NULL);
-            return error;
+            return ResultDTO.getErrorResult(ErrorConstant.USERNAME_IS_NULL);
         } else if (user.getUserName().length() < 3 || user.getUserName().length() > 7) {
-            error.setUserNameIsOutOfRange(ErrorConstant.USERNAME_IS_OUT_OF_RANGE);
-            return error;
+            return ResultDTO.getErrorResult(ErrorConstant.USERNAME_IS_OUT_OF_RANGE);
         } else if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-            error.setPasswordIsNull(ErrorConstant.PASSWORD_IS_NULL);
-            return error;
+            return ResultDTO.getErrorResult(ErrorConstant.PASSWORD_IS_NULL);
         } else if (user.getPassword().length() < 3 || user.getPassword().length() > 9) {
-            error.setPasswordIsOutOfRange(ErrorConstant.PASSWORD_IS_OUT_OF_RANGE);
-            return error;
+            return ResultDTO.getErrorResult(ErrorConstant.PASSWORD_IS_OUT_OF_RANGE);
         } else {
             User user1 = userMapper.selectUserByUserName(user.getUserName());
             if (user1 == null) {
-                error.setUserIsNotExist(ErrorConstant.USER_IS_NOT_EXIST);
-                return error;
+                return ResultDTO.getErrorResult(ErrorConstant.USER_IS_NOT_EXIST);
             }
             if (!user.getPassword().equals(user1.getPassword())) {
-                error.setPasswordError(ErrorConstant.PASSWORD_ERROR);
-                return error;
+                return ResultDTO.getErrorResult(ErrorConstant.PASSWORD_ERROR);
             }
         }
         return null;

@@ -1,7 +1,8 @@
 package com.yeexang.community.controller;
 
 import com.yeexang.community.dto.CommentCreateDTO;
-import com.yeexang.community.dto.ResponseDTO;
+import com.yeexang.community.dto.CommentDTO;
+import com.yeexang.community.dto.ResultDTO;
 import com.yeexang.community.pojo.Comment;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.service.CommentSev;
@@ -9,12 +10,10 @@ import com.yeexang.community.utils.ErrorConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class CommentCon {
@@ -24,19 +23,16 @@ public class CommentCon {
 
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public ResponseDTO post(@RequestBody CommentCreateDTO commentCreateDTO, HttpServletRequest request) {
+    public ResultDTO post(@RequestBody CommentCreateDTO commentCreateDTO, HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("session_user");
-        ResponseDTO responseDTO = new ResponseDTO();
 
         if (user == null) {
-            responseDTO.setNoLoggedIn(ErrorConstant.NO_LOGGED_IN);
-            return responseDTO;
+            return ResultDTO.getErrorResult(ErrorConstant.NO_LOGGED_IN);
         }
 
         if (commentCreateDTO == null || StringUtils.isEmpty(commentCreateDTO.getContent().trim())) {
-            responseDTO.setContentIsEmpty(ErrorConstant.CONTENT_IS_EMPTY);
-            return responseDTO;
+            return ResultDTO.getErrorResult(ErrorConstant.CONTENT_IS_EMPTY);
         }
 
         Comment comment = new Comment();
@@ -49,10 +45,18 @@ public class CommentCon {
         comment.setLikeCount(0L);
         String error = commentSev.addComment(comment);
         if (error != null) {
-            responseDTO.setTargetParamNotFound(error);
-            return responseDTO;
+            return ResultDTO.getErrorResult(error);
         }
-        responseDTO.setStatus(true);
-        return responseDTO;
+        return ResultDTO.getSuccessResult();
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{cid}", method = RequestMethod.GET)
+    public ResultDTO<List> post(@PathVariable(name = "cid") Long cid) {
+
+        List<CommentDTO> commentList = commentSev.getCommentList(cid, 2);
+//        return new ResultDTO<>();
+        return null;
+    }
+
 }

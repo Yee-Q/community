@@ -1,6 +1,6 @@
 package com.yeexang.community.advice;
 
-import com.yeexang.community.dto.ResponseDTO;
+import com.yeexang.community.dto.ResultDTO;
 import com.yeexang.community.exception.CustomizeException;
 import com.yeexang.community.utils.ErrorConstant;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,13 +16,12 @@ public class CustomizeExceptionHandler {
     public ModelAndView handle(HttpServletRequest request, Exception ex) {
         ModelAndView mv = new ModelAndView();
         String contentType = request.getContentType();
-        ResponseDTO error = new ResponseDTO();
         if (ex instanceof CustomizeException) {
-            error.setCustomizeExMsg(ex.getMessage());
-            mv.addObject("error", error);
+            ResultDTO resultDTO = ResultDTO.getErrorResult(ex.getMessage());
+            mv.addObject("error", resultDTO);
         } else {
-            error.setCustomizeExMsg(ErrorConstant.DEFAULT_ERROR_MSG);
-            mv.addObject("error", error);
+            ResultDTO resultDTO = ResultDTO.getErrorResult(ErrorConstant.DEFAULT_ERROR_MSG);
+            mv.addObject("error", resultDTO);
         }
         mv.setViewName("error");
         return mv;

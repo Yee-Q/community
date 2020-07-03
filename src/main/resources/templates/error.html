@@ -13,7 +13,8 @@
 <div th:insert="~{navigation :: nav}"></div>
 <div class="jumbotron" style="background-color: #e2e2e2;">
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12"><h1>出错啦！！！</h1>
-        <p th:text="${error.customizeExMsg}"></p>
+        <p th:if="${error.errorMsg.equals('topicNotFound')}">您要找的帖子不存在, 要不换一个试</p>
+        <p th:if="${error.errorMsg.equals('requestError')}">请求错误, 要不换个姿势试试</p>
         <p><a class="btn btn-primary btn-lg" href="/" role="button">回到主页</a></p>
     </div>
 </div>

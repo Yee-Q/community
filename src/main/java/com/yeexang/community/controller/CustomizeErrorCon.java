@@ -1,6 +1,6 @@
 package com.yeexang.community.controller;
 
-import com.yeexang.community.dto.ResponseDTO;
+import com.yeexang.community.dto.ResultDTO;
 import com.yeexang.community.utils.ErrorConstant;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -24,15 +24,14 @@ public class CustomizeErrorCon implements ErrorController {
 
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView errorHtml(HttpServletRequest request, Model model) {
-        ResponseDTO error = new ResponseDTO();
         HttpStatus status = getStatus(request);
         if (status.is4xxClientError()) {
-            error.setCustomizeExMsg(ErrorConstant.REQUEST_ERROR);
-            model.addAttribute("error", error);
+            ResultDTO resultDTO = ResultDTO.getErrorResult(ErrorConstant.REQUEST_ERROR);
+            model.addAttribute("error", resultDTO);
         }
         if (status.is5xxServerError()) {
-            error.setCustomizeExMsg(ErrorConstant.DEFAULT_ERROR_MSG);
-            model.addAttribute("error", error);
+            ResultDTO resultDTO = ResultDTO.getErrorResult(ErrorConstant.DEFAULT_ERROR_MSG);
+            model.addAttribute("error", resultDTO);
         }
         return new ModelAndView("error");
     }

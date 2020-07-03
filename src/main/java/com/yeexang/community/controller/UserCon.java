@@ -1,6 +1,6 @@
 package com.yeexang.community.controller;
 
-import com.yeexang.community.dto.ResponseDTO;
+import com.yeexang.community.dto.ResultDTO;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.service.UserSev;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.UUID;
@@ -43,7 +42,7 @@ public class UserCon {
     @PostMapping("/signin")
     public String signin(User user, Map<String, Object> map, HttpServletResponse response) {
 
-        ResponseDTO error = userSev.verifySigninInfo(user);  // 登录信息校验
+        ResultDTO error = userSev.verifySigninInfo(user);  // 登录信息校验
         if (error != null) {    // 校验错误
             map.put("error", error);
             map.put("form", user);
