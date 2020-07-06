@@ -82,15 +82,15 @@
                 <p><strong>个人信息</strong></p>
                 <p>异想是一个分享脑洞与探索未来的平台</p>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group" style="background-color: white; padding: 15px; margin-bottom: 15px">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group" style="background-color: white; padding: 0; margin-bottom: 15px;">
                 <a href="#" class="list-group-item disabled">
-                    专栏分类
+                    相关帖子
                 </a>
-                <a href="#" class="list-group-item">技术</a>
-                <a href="#" class="list-group-item">创意</a>
-                <a href="#" class="list-group-item">酷玩</a>
-                <a href="#" class="list-group-item">工作</a>
-                <a href="#" class="list-group-item">其他</a>
+                <div th:each="relatedTopic : ${relatedTopicDTOList}">
+                    <a th:href="@{'/topic/'+ ${relatedTopic.tid}}" class="list-group-item">
+                        <span th:text="${relatedTopic.title}"></span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

@@ -1,6 +1,5 @@
 package com.yeexang.community.controller;
 
-import com.yeexang.community.dto.CommentCreateDTO;
 import com.yeexang.community.dto.CommentDTO;
 import com.yeexang.community.dto.TopicDTO;
 import com.yeexang.community.service.CommentSev;
@@ -27,10 +26,13 @@ public class TopicCon {
         // 增加帖子阅读数
         topicSev.incView(tid);
         TopicDTO topicDTO = topicSev.getTopicByTid(tid);
+        // 获取与标签相关的帖子，不包括自己
+        List<TopicDTO> relatedTopicDTOList = topicSev.getRelatedTopic(topicDTO.getTag(), topicDTO.getTid());
         // 返回帖子评论列表
         List<CommentDTO> commentConDTOList = commentSev.getCommentList(tid, 1);
         model.addAttribute("topicDTO", topicDTO);
         model.addAttribute("comemntDTOList", commentConDTOList);
+        model.addAttribute("relatedTopicDTOList", relatedTopicDTOList);
         return "topic";
     }
 }

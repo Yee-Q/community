@@ -62,5 +62,12 @@ public interface TopicMapper {
     @Select("SELECT * FROM topic WHERE creator = #{uid}")
     List<Topic> selectTopicsByUid(Long uid);
 
-
+    /**
+     * 获取所有与标签相关的帖子,不包括自己
+     * @param regexpTag
+     * @param tid
+     * @return List<Topic>
+     */
+    @Select("SELECT * FROM topic WHERE tid != #{tid} AND tag REGEXP #{regexpTag}")
+    List<Topic> selectRelatedTopicByTag(String regexpTag, Long tid);
 }

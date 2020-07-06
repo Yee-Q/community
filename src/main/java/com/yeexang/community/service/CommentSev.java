@@ -39,14 +39,6 @@ public class CommentSev {
             return ErrorConstant.TYPE_PARAM_ERROR;
         } else {
             if (comment.getType() == 1) {
-                // 回复评论
-                Comment dbcomment = commentMapper.selectCommentById(comment.getParentId());
-                if (dbcomment == null) {
-                    return ErrorConstant.COMMENT_NOT_FOUND;
-                }
-                commentMapper.createComment(comment);
-                commentMapper.updateCommentCountByCid(dbcomment.getCid());
-            } else {
                 // 回复帖子
                 Topic topic = topicMapper.selectTopicByTid(comment.getParentId());
                 if (topic == null) {
@@ -54,6 +46,14 @@ public class CommentSev {
                 }
                 commentMapper.createComment(comment);
                 topicMapper.updateTopicCommentCountByTid(comment.getParentId());
+            } else {
+                // 回复评论
+                Comment dbcomment = commentMapper.selectCommentById(comment.getParentId());
+                if (dbcomment == null) {
+                    return ErrorConstant.COMMENT_NOT_FOUND;
+                }
+                commentMapper.createComment(comment);
+                commentMapper.updateCommentCountByCid(dbcomment.getCid());
             }
         }
         return null;

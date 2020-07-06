@@ -9,12 +9,16 @@ import com.yeexang.community.mapper.UserMapper;
 import com.yeexang.community.pojo.Topic;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.utils.ErrorConstant;
+import org.attoparser.util.TextUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.thymeleaf.util.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TopicSev {
@@ -153,5 +157,28 @@ public class TopicSev {
      */
     public void incView(Long tid) {
         topicMapper.updateTopicViewCountByTid(tid);
+    }
+
+    /**
+     * 获取与标签相关的帖子,不包括自己
+     * @param tag
+     * @return List<TopicDTO>
+     */
+    public List<TopicDTO> getRelatedTopic(String tag, Long tid) {
+
+        if (StringUtils.isEmpty(tag.trim())) {
+            return null;
+        }
+        String regexpTag = StringUtils.replace(tag, ",", "|");
+        List<Topic> topicList = topicMapper.selectRelatedTopicByTag(regexpTag, tid);
+        List<TopicDTO> topicDTOList = new ArrayList<>();
+        for (Topic topic : topicList) {
+            User user = userMapper.selectUserById(topic.getCreator());
+            TopicDTO topicDTO = new TopicDTO();
+            BeanUtils.copyProperties(topic, topicDTO);
+            topicDTO.setUser(user);
+            topicDTOList.add(topicDTO);
+        }
+        return topicDTOList;
     }
 }
