@@ -36,6 +36,7 @@ https://www.runoob.com/html/html5-webstorage.html   // 菜鸟教程
 6. 使用 jquery 拼接 html 完成二级评论的显示
 7. 使用 coment.js 完成时间格式转换 - 45
 8. 根据标签检索相关帖子并展示 - 46
+9. 添加标签再优化 - 48
 
 ### 学到了
 js函数可以使用在某行加上 debugger; 作为断点

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/css/community.css"/>
+    <script src="/js/community.js"></script>
     <script src="/js/jquery-3.5.1.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
@@ -34,7 +35,22 @@
                 <div class="form-group">
                     <label for="title">添加标签</label>
                     <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签，以逗号分隔"
-                           th:value="${tag}" />
+                           autocomplete="off" th:value="${tag}" onclick="showSelectTag()"  />
+                    <div id="select-tag" style="display: none">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectCategory : ${tags}">
+                                <a th:href="${'#' + selectCategory.category}" aria-controls="home" role="tab" data-toggle="tab" th:text="${selectCategory.category}"></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane" th:id="${selectCategory.category}" th:each="selectCategory : ${tags}">
+                                <span class="label label-default"style="margin-right: 10px" th:each="selectTag : ${selectCategory.tags}" onclick="selectTag(this)" th:data-tag="${selectTag}">
+                                    <span class="glyphicon glyphicon-tag"></span>
+                                    <span class="label label-default" th:text="${selectTag}"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="container-fluid main">
                     <div class="row">

@@ -2,6 +2,7 @@ package com.yeexang.community.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yeexang.community.cache.TagCache;
 import com.yeexang.community.dto.TopicDTO;
 import com.yeexang.community.exception.CustomizeException;
 import com.yeexang.community.mapper.TopicMapper;
@@ -142,11 +143,15 @@ public class TopicSev {
      */
     public String verifyPublishInfo(String title, String description, String tag) {
         if (title == null || title.equals("")) {
-            return "publish";
+            return "标题不能为空";
         } else if (description == null || description.equals("")) {
-            return "publish";
+            return "内容不能为空";
         } else if (tag == null || tag.equals("")) {
-            return "publish";
+            return "标签不能为空";
+        }
+        String invaild = TagCache.filterInvaild(tag);
+        if (!StringUtils.isEmpty(invaild)) {
+            return "标签内容非法:" + invaild;
         }
         return null;
     }

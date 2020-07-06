@@ -1,5 +1,6 @@
 package com.yeexang.community.controller;
 
+import com.yeexang.community.cache.TagCache;
 import com.yeexang.community.dto.TopicDTO;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.service.TopicSev;
@@ -32,6 +33,7 @@ public class PublishCon {
         model.addAttribute("description", topicDTO.getDescription());
         model.addAttribute("tag", topicDTO.getTag());
         model.addAttribute("tid", topicDTO.getTid());
+        model.addAttribute("tags", TagCache.getTags());
         return "publish";
     }
 
@@ -40,12 +42,13 @@ public class PublishCon {
      * @return publish
      */
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(Model model) {
+        model.addAttribute("tags", TagCache.getTags());
         return "publish";
     }
 
     /**
-     *
+     * 发布或更新帖子
      * @param title
      * @param description
      * @param tag
@@ -64,6 +67,7 @@ public class PublishCon {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
+        model.addAttribute("tags", TagCache.getTags());
 
         User user = (User) request.getSession().getAttribute("session_user");
         if (user == null) { // 检查用户是否登录

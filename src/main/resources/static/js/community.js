@@ -116,3 +116,27 @@ function collapseComment(e) {
         $("#comment-" + id).toggleClass("in");
     }
 }
+
+/**
+ * 选择标签
+ */
+function selectTag(e) {
+
+    let value = e.getAttribute("data-tag");
+    let previous = $("#tag").val();
+    if (previous.indexOf(value) == -1) {
+        if (previous) {
+            $("#tag").val(previous + "," + value);
+        } else {
+            $("#tag").val(value);
+        }
+    }
+}
+
+/**
+ * 展示标签选择栏
+ */
+function showSelectTag() {
+
+    $("#select-tag").show();
+}
