@@ -4,6 +4,7 @@ import com.yeexang.community.pojo.Comment;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,4 +37,13 @@ public interface CommentMapper {
     @Insert("INSERT INTO comment (parent_id,content,commentator,gmt_create,gmt_modified,like_count,type) " +
             "VALUES (#{parentId},#{content},#{commentator},#{gmtCreate},#{gmtModified},#{likeCount},#{type})")
     void createComment(Comment comment);
+
+    /**
+     * 更新评论回复数
+     * @param cid
+     */
+    @Update("UPDATE comment SET comment_count = comment_count + 1 WHERE cid = #{cid}")
+    void updateCommentCountByCid(Long cid);
 }
+
+

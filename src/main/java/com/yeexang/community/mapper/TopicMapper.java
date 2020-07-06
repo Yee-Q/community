@@ -17,21 +17,6 @@ public interface TopicMapper {
             "VALUES (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
     void createTopic(Topic topic);
 
-    @Select("SELECT * FROM question LIMIT #{offset}, #{size}")
-    List<Topic> list(@Param(value = "offset") Integer offset,
-                     @Param(value = "size") Integer size);
-
-    @Select("SELECT COUNT(1) FROM question")
-    Integer count();
-
-    @Select("SELECT * FROM question WHERE creator = #{userId} LIMIT #{offset}, #{size}")
-    List<Topic> listByUserId(@Param(value = "userId") Integer userId,
-                             @Param(value = "offset") Integer offset,
-                             @Param(value = "size") Integer size);
-
-    @Select("SELECT COUNT(1) FROM question WHERE creator = #{userId}")
-    Integer countByUserId(@Param(value = "userId") Integer userId);
-
     /**
      * 更新帖子信息
      * @param topic

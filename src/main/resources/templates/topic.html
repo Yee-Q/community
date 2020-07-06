@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/community.css">
     <script src="/js/jquery-3.5.1.min.js"></script>
     <script src="/js/community.js"></script>
+    <script src="/js/coment.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
@@ -17,13 +18,19 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="padding: 15px">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: white; padding: 15px; border-bottom: 1px solid #e2e2e2">
                 <h3 th:text="${topicDTO.title}"></h3>
-                    <span class="text-desc">
-                        <a th:href="@{'/publish/' + ${topicDTO.tid}}" th:if="${session.session_user != null && session.session_user.uid == topicDTO.creator}">编辑</a>&nbsp;&nbsp;
-                        作者：<span th:text="${topicDTO.user.userName}"></span>&nbsp;&nbsp;
-                        <span th:text="${topicDTO.commentCount}"></span> 个回复&nbsp;&nbsp;
-                        <span th:text="${topicDTO.viewCount}"></span> 次浏览&nbsp;&nbsp;
-                        发布时间：<span th:text="${#dates.format(topicDTO.gmtCreate,'yyyy-MM-dd HH:mm')}">2020-4-1</span>
+                <span class="text-desc">
+                    <a th:href="@{'/publish/' + ${topicDTO.tid}}" th:if="${session.session_user != null && session.session_user.uid == topicDTO.creator}">编辑</a>&nbsp;&nbsp;
+                    作者：<span th:text="${topicDTO.user.userName}"></span>&nbsp;&nbsp;
+                    <span th:text="${topicDTO.commentCount}"></span> 个回复&nbsp;&nbsp;
+                    <span th:text="${topicDTO.viewCount}"></span> 次浏览&nbsp;&nbsp;
+                    发布时间：<span th:text="${#dates.format(topicDTO.gmtCreate,'yyyy-MM-dd HH:mm')}">2020-4-1</span>
+                </span>
+                <div style="margin-top: 10px; ">
+                    <span class="label label-default" th:each="tag : ${topicDTO.tag.split(',')}" style="margin-right: 10px">
+                        <span class="glyphicon glyphicon-tag"></span>
+                        <span class="label label-default"  th:text="${tag}"></span>
                     </span>
+                </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: white; padding: 15px; margin-bottom: 15px">
                 <span th:text="${topicDTO.description}"></span>
@@ -39,8 +46,10 @@
                             <img class="media-object img-rounded" th:src="${commentDTO.user.avatarUrl}" style="width: 50px; height: 50px;">
                         </a>
                     </div>
-                    <div class="media-body">
-                        <p class="media-heading"><a href="#" style="text-decoration: none"><strong th:text="${commentDTO.user.userName}"></strong></a><p/>
+                    <div class="media-body" th:id="${'comment-body-' + commentDTO.cid}">
+                        <p class="media-heading">
+                            <a href="#" style="text-decoration: none"><strong th:text="${commentDTO.user.userName}"></strong></a>
+                        </p>
                         <p th:text="${commentDTO.content}"></p>
                         <div style="color: #999;">
                             <span class="glyphicon glyphicon-comment icon" th:data-id="${commentDTO.cid}" onclick="collapseComment(this)"></span>&nbsp;&nbsp;
@@ -48,23 +57,8 @@
                             <span class="pull-right text-desc" th:text="${#dates.format(commentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
                         </div>
                         <div class="collapse" th:id="${'comment-' + commentDTO.cid}" style="margin-top: 10px; margin-bottom: 10px; border: 1px solid #e2e2e2; padding: 15px 15px 40px; border-radius: 5px">
-                            <!-- 二级评论 -->
-                            <div class="media" th:each="commentDTO : ${comemntDTOList}">
-                                <div class="media-left media-top">
-                                    <a href="#">
-                                        <img class="media-object img-rounded" th:src="${commentDTO.user.avatarUrl}" style="width: 50px; height: 50px;">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <p class="media-heading">
-                                        <a href="#" style="text-decoration: none"><strong th:text="${commentDTO.user.userName}"></strong></a>
-                                        <span style="color: #999; margin-left: 10px;" class="text-desc" th:text="${#dates.format(commentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
-                                    <p/>
-                                    <p th:text="${commentDTO.content}"></p>
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" placeholder="评论一下" style="margin-top: 10px; margin-bottom: 10px">
-                            <button type="button" class="btn btn-success btn-sm pull-right">发布</button>
+                            <input type="text" class="form-control" placeholder="评论一下" th:id="${'reply-' + commentDTO.cid}" style="margin-top: 10px; margin-bottom: 10px">
+                            <button type="button" class="btn btn-success btn-sm pull-right" onclick="comment(this)" th:data-id="${commentDTO.cid}">发布</button>
                         </div>
                     </div>
                 </div>

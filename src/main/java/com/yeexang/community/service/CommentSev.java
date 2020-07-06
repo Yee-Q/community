@@ -45,6 +45,7 @@ public class CommentSev {
                     return ErrorConstant.COMMENT_NOT_FOUND;
                 }
                 commentMapper.createComment(comment);
+                commentMapper.updateCommentCountByCid(dbcomment.getCid());
             } else {
                 // 回复帖子
                 Topic topic = topicMapper.selectTopicByTid(comment.getParentId());

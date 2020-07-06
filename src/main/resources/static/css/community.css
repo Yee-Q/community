@@ -34,3 +34,12 @@ body {
 .icon {
     font-size: 15px;
 }
+
+.user-name-link {
+    text-decoration: none;
+}
+
+.topic-gmt-time {
+    color: #999;
+    margin-left: 10px;
+}

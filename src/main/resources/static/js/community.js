@@ -1,9 +1,11 @@
-/**
- * 提交回复
- */
-function post() {
-    let tid = $("#tid").val();
-    let content = $("#comment-content").val();
+function comment(e) {
+
+    let cid = e.getAttribute("data-id");
+    let content = $("#reply-" + cid).val();
+    comment2Target(cid, 2, content);
+}
+
+function comment2Target(targetId, type, content) {
 
     if (!content) {
         alert("评论不能为空");
@@ -16,9 +18,9 @@ function post() {
         contentType: "application/json",
         url: "/comment",
         data: JSON.stringify({
-            "parentId": tid,
+            "parentId": targetId,
             "content": content,
-            "type": 1
+            "type": type
         }),
         success: function (resultDTO) {
             if (resultDTO.status) {
@@ -37,9 +39,80 @@ function post() {
 }
 
 /**
- * 展开二级评论
+ * 提交回复
+ */
+function post() {
+
+    let tid = $("#tid").val();
+    let content = $("#comment-content").val();
+    comment2Target(tid, 1, content);
+}
+
+/**
+ * 展开收起二级评论
  */
 function collapseComment(e) {
+
     let id = e.getAttribute("data-id");
-    $("#comment-" + id).toggleClass("in");
+    let subCommentContainer = $("#comment-" + id);
+    if (subCommentContainer.children().length != 2) {
+        $("#comment-" + id).toggleClass("in");
+    } else {
+        $.getJSON("/comment/" + id, function (data) {
+            $.each( data.data.reverse(), function(index, comment) {
+
+                let mediaImg = $("<img/>", {
+                    "class": "media-object img-rounded",
+                    "src": comment.user.avatarUrl
+                });
+
+                let mediaLeftLink = $("<a/>", {
+                    "href": "#"
+                });
+
+                let mediaLeft = $("<div/>", {
+                    "class": "media-left media-top",
+                });
+
+                let mediaHeadingContent= $("<p/>", {
+                    html: comment.content
+                });
+
+                let mediaHeadingTime= $("<span/>", {
+                    "class": "topic-gmt-time text-desc",
+                    html: moment(comment.gmtCreate).format("YYYY-MM-DD")
+                });
+
+                let mediaHeadingLink = $("<a/>", {
+                    "href": "#",
+                    "class": "user-name-link"
+                }).append($("<strong/>", {
+                    html: comment.user.userName
+                }));
+
+                let mediaHeading = $("<p/>", {
+                    "class": "media-heading",
+                });
+
+                let mediaBody = $("<div/>", {
+                    "class": "media-body",
+                });
+
+                let media = $("<div/>", {
+                    "class": "media",
+                });
+
+                mediaLeftLink.append(mediaImg);
+                mediaLeft.append(mediaLeftLink);
+                media.append(mediaLeft);
+                mediaHeading.append(mediaHeadingLink);
+                mediaHeading.append(mediaHeadingTime);
+                mediaBody.append(mediaHeading);
+                mediaBody.append(mediaHeadingContent);
+                media.append(mediaBody);
+                subCommentContainer.prepend(media);
+            });
+        });
+        $("#comment-" + id).toggleClass("in");
+    }
 }

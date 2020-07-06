@@ -2,11 +2,18 @@ package com.yeexang.community.dto;
 
 public class ResultDTO<T> {
 
-    // true 为成功，false 为失败
+    /**
+     * 请求状态
+     * true 为成功, false 为失败
+     */
     private Boolean status;
-    // 错误信息
+    /**
+     * 错误信息
+     */
     private String errorMsg;
-    // 返回的数据
+    /**
+     * 返回的数据集
+     */
     private T data;
 
     /**
@@ -16,6 +23,19 @@ public class ResultDTO<T> {
     public static <T> ResultDTO<T> getSuccessResult() {
         ResultDTO<T> resultDTO = new ResultDTO<>();
         resultDTO.setStatus(true);
+        return resultDTO;
+    }
+
+    /**
+     * 请求成功并返回数据集
+     * @param data
+     * @param <T>
+     * @return
+     */
+    public static <T> ResultDTO<T> getSuccessResult(T data) {
+        ResultDTO<T> resultDTO = new ResultDTO<>();
+        resultDTO.setStatus(true);
+        resultDTO.setData(data);
         return resultDTO;
     }
 

@@ -55,8 +55,7 @@ public class CommentCon {
     public ResultDTO<List> post(@PathVariable(name = "cid") Long cid) {
 
         List<CommentDTO> commentList = commentSev.getCommentList(cid, 2);
-//        return new ResultDTO<>();
-        return null;
+        return ResultDTO.getSuccessResult(commentList);
     }
 
 }
