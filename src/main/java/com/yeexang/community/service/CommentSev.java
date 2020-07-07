@@ -2,9 +2,11 @@ package com.yeexang.community.service;
 
 import com.yeexang.community.dto.CommentDTO;
 import com.yeexang.community.mapper.CommentMapper;
+import com.yeexang.community.mapper.NotificationMapper;
 import com.yeexang.community.mapper.TopicMapper;
 import com.yeexang.community.mapper.UserMapper;
 import com.yeexang.community.pojo.Comment;
+import com.yeexang.community.pojo.Notification;
 import com.yeexang.community.pojo.Topic;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.utils.ErrorConstant;
@@ -31,21 +33,26 @@ public class CommentSev {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private NotificationMapper notificationMapper;
+
     @Transactional
-    public String addComment(Comment comment) {
+    public String addComment(Comment comment, User commentator) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             return ErrorConstant.TARGET_PARAM_NOT_FOUND;
         } else if (comment.getType() == null || comment.getType() == 0) {
             return ErrorConstant.TYPE_PARAM_ERROR;
         } else {
+            Topic topic = topicMapper.selectTopicByTid(comment.getParentId());
             if (comment.getType() == 1) {
                 // 回复帖子
-                Topic topic = topicMapper.selectTopicByTid(comment.getParentId());
                 if (topic == null) {
                     return ErrorConstant.TOPIC_NOT_FOUND;
                 }
                 commentMapper.createComment(comment);
                 topicMapper.updateTopicCommentCountByTid(comment.getParentId());
+                // 创建通知
+                createNotify(comment, topic.getCreator(), commentator.getUserName(), topic.getTitle(), 1);
             } else {
                 // 回复评论
                 Comment dbcomment = commentMapper.selectCommentById(comment.getParentId());
@@ -54,9 +61,30 @@ public class CommentSev {
                 }
                 commentMapper.createComment(comment);
                 commentMapper.updateCommentCountByCid(dbcomment.getCid());
+                // 创建通知
+                createNotify(comment, dbcomment.getCommentator(), commentator.getUserName(), dbcomment.getContent(), 2);
             }
         }
         return null;
+    }
+
+    /**
+     * 创建通知
+     * @param type
+     * @param comment
+     *
+     */
+    private void createNotify(Comment comment, Long recevier, String notifierName, String outerTitle, int type) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(type);
+        notification.setOuterid(comment.getParentId());
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(0);
+        notification.setRecevier(recevier);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationMapper.createNotification(notification);
     }
 
     /**

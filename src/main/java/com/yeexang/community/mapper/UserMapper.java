@@ -25,10 +25,6 @@ public interface UserMapper {
     })
     List<User> selectUserByUidList(List<Long> userIds);
 
-    @Insert("INSERT INTO user (name, account_id, token, gmt_create, gmt_modified, avatar_url) " +
-            "VALUES (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified}, #{avatarUrl})")
-    void insert(User user);
-
     /**
      * 根据 token 查找用户
      * @param token
@@ -52,12 +48,6 @@ public interface UserMapper {
      */
     @Select("SELECT * FROM user WHERE uid = #{uid}")
     User selectUserById(Long uid);
-
-    @Select("SELECT * FROM user WHERE account_id = #{accountId}")
-    User findByAccountId(String accountId);
-
-    @Update("UPDATE user SET name = #{name}, token = #{token}, gmt_modified = #{gmtModified}, avatar_url = #{avatarUrl} WHERE id = #{id}")
-    void update(User user);
 
     /**
      * 更新用户 token

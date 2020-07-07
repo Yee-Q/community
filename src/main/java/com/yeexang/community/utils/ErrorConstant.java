@@ -61,4 +61,12 @@ public class ErrorConstant {
      * 评论内容为空
      */
     public static final String CONTENT_IS_EMPTY = "ContentIsEmpty";
+    /**
+     * 读取通知信息失败
+     */
+    public static final String READ_NOTIFICATION_FAILED = "ReadNotificationFailed";
+    /**
+     * 通知信息不存在
+     */
+    public static final String NOTIFICATION_NOT_FOUND = "NotificationNotFound";
 }

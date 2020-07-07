@@ -3,6 +3,7 @@ package com.yeexang.community.controller;
 import com.yeexang.community.dto.CommentCreateDTO;
 import com.yeexang.community.dto.CommentDTO;
 import com.yeexang.community.dto.ResultDTO;
+import com.yeexang.community.mapper.NotificationMapper;
 import com.yeexang.community.pojo.Comment;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.service.CommentSev;
@@ -43,7 +44,7 @@ public class CommentCon {
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setCommentator(user.getUid());
         comment.setLikeCount(0L);
-        String error = commentSev.addComment(comment);
+        String error = commentSev.addComment(comment, user);
         if (error != null) {
             return ResultDTO.getErrorResult(error);
         }
