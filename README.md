@@ -39,6 +39,7 @@ https://www.runoob.com/html/html5-webstorage.html   // 菜鸟教程
 9. 添加标签再优化 - 48
 10. 回复通知 -49
 11. 实现了 MarkDown 编辑功能 -51
+12. 实现 markdown 图片上传 -52
 
 ### 学到了
 js函数可以使用在某行加上 debugger; 作为断点
