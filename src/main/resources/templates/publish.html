@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/css/community.css"/>
-    <script src="/js/community.js"></script>
-    <script src="/js/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="/css/editormd.min.css" />
+    <script src="/js/community.js"  type="application/javascript"></script>
+    <script src="/js/jquery-3.5.1.min.js"  type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
@@ -27,10 +29,10 @@
                     <input type="text" class="form-control" id="title" name="title" placeholder="问题标题..."
                            th:value="${title}"/>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="topic-editor">
                     <label for="title">问题补充（必填，请参照右侧提示）</label>
                     <textarea name="description" class="form-control" id="description" cols="30" rows="10"
-                              th:text="${description}" />
+                              th:text="${description}" style="display: none"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="title">添加标签</label>
@@ -74,4 +76,17 @@
     </div>
 </div>
 </body>
+
+<script type="text/javascript">
+    $(function() {
+        var editor = editormd("topic-editor", {
+            width  : "100%",
+            height : "350px",
+            path   : "/js/lib/",
+            delay  : 0,
+            placeholder: "请在这里输入详细描述"
+        });
+    });
+</script>
+
 </html>

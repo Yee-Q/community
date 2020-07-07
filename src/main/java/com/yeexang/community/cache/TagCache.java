@@ -32,6 +32,11 @@ public class TagCache {
     public static String filterInvaild(String tags) {
 
         String[] spilt = StringUtils.split(tags, ",");
+
+        if (spilt == null) {
+            spilt = new String[]{tags};
+        }
+
         List<TagDTO> tagDTOS = getTags();
 
         List<String> tagList = tagDTOS.stream().flatMap(tag -> tag.getTags().stream()).collect(Collectors.toList());
