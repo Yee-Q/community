@@ -5,44 +5,48 @@
     <!-- 导航栏 -->
     <nav class="navbar navbar-default">
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">异想社区</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-left">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="搜索话题">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/"><strong>异想社区</strong></a>
                     </div>
-                    <button type="submit" class="btn btn-default">搜索</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right" th:if="${session.session_user == null}">
-                    <li>
-                        <a href="/">首页</a>
-                    </li>
-                    <li>
-                        <a href="#">注册</a>
-                    </li>
-                    <li>
-                        <a href="/signin">登录</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right" th:if="${session.session_user != null}">
-                    <li><a href="/profile/reply">通知 <span class="badge">42</span></a></li>
-                    <li>
-                        <a href="/publish">发帖</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-haspopup="true" aria-expanded="false">
-                            <span th:text="${session.session_user.userName}"></span>
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/profile/topics">我的问题</a></li>
-                            <li><a href="/logout">退出登录</a></li>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <form class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="搜索话题">
+                            </div>
+                            <button type="submit" class="btn btn-default">搜索</button>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right" th:if="${session.session_user == null}">
+                            <li>
+                                <a href="/">首页</a>
+                            </li>
+                            <li>
+                                <a href="#">注册</a>
+                            </li>
+                            <li>
+                                <a href="/signin">登录</a>
+                            </li>
                         </ul>
-                    </li>
-                </ul>
+                        <ul class="nav navbar-nav navbar-right" th:if="${session.session_user != null}">
+                            <li><a href="/profile/reply">通知 <span class="badge">42</span></a></li>
+                            <li>
+                                <a href="/publish">发帖</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <span th:text="${session.session_user.userName}"></span>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/profile/topics">我的问题</a></li>
+                                    <li><a href="/logout">退出登录</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
