@@ -10,9 +10,25 @@ import java.util.stream.Collectors;
 
 public class TagCache {
 
+    private static List<String> programTags = new ArrayList<String>() {
+        {
+            this.add("JavaScirpt");
+            this.add("Java");
+            this.add("C");
+            this.add("C++");
+            this.add("PHP");
+        }
+    };
+    private static List<String> frameworkTags = new ArrayList<String>() {
+        {
+            this.add("django");
+            this.add("spring");
+            this.add("express");
+        }
+    };
+
     /**
      * 提供标签选项信息
-     *
      * @return
      */
     public static List<TagDTO> getTags() {
@@ -20,10 +36,10 @@ public class TagCache {
         List<TagDTO> tagDTOList = new ArrayList<>();
         TagDTO program = new TagDTO();
         program.setCategory("开发语言");
-        program.setTags(Arrays.asList("JavaScirpt", "Java", "C", "C++", "PHP"));
+        program.setTags(programTags);
         TagDTO framework = new TagDTO();
         framework.setCategory("平台框架");
-        framework.setTags(Arrays.asList("django", "spring", "express"));
+        framework.setTags(frameworkTags);
         tagDTOList.add(program);
         tagDTOList.add(framework);
         return tagDTOList;

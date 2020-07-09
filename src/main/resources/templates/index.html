@@ -95,22 +95,16 @@
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: white; padding: 15px; margin-bottom: 15px">
                 <p><strong>热门标签</strong></p>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
-                <h4 style="display: inline-block"><a href="#"><span class="label label-default">New</span></a></h4>
+                <div th:if="${tagDTOList == null}">
+                    暂无标签
+                </div>
+                <span th:if="${tagDTOList != null}" th:each="tagDTO : ${tagDTOList}">
+                    <h4 style="display: inline-block" th:each="tag : ${tagDTO.tags}">
+                        <a href="#"><span class="label label-default" th:text="${tag}"></span></a>
+                    </h4>
+                </span>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group" style="background-color: white; padding: 15px; margin-bottom: 15px">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group" style="background-color: white; padding: 0px;">
                 <a href="#" class="list-group-item disabled">
                     专栏分类
                 </a>
