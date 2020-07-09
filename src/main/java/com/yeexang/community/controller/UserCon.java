@@ -1,13 +1,12 @@
 package com.yeexang.community.controller;
 
 import com.yeexang.community.dto.ResultDTO;
+import com.yeexang.community.dto.UserDTO;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.service.UserSev;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.Cookie;
@@ -23,32 +22,21 @@ public class UserCon {
     private UserSev userSev;
 
     /**
-     * 跳转到登录页面
-     *
-     * @return signin
-     */
-    @GetMapping("/signin")
-    public String toSignPage() {
-        return "signin";
-    }
-
-    /**
      * 登录
-     * @param user
+     * @param userDTO
      * @param map
      * @param response
-     * @return index
+     * @return ResultDTO
      */
+    @ResponseBody
     @PostMapping("/signin")
-    public String signin(User user, Map<String, Object> map, HttpServletResponse response) {
+    public ResultDTO signin(@RequestBody UserDTO userDTO, Map<String, Object> map, HttpServletResponse response) {
 
-        ResultDTO error = userSev.verifySigninInfo(user);  // 登录信息校验
-        if (error != null) {    // 校验错误
-            map.put("error", error);
-            map.put("form", user);
-            return "signin";
+        ResultDTO resultDTO = userSev.verifyUserInfo(userDTO);  // 登录信息校验
+        if (resultDTO != null) {    // 校验错误
+            return resultDTO;
         }
-        User session_user = userSev.getUserByUname(user);
+        User session_user = userSev.getUserByUname(userDTO);
         String token = UUID.randomUUID().toString();
         session_user.setToken(token);
         userSev.updateTooken(session_user.getUid(), token);
@@ -56,8 +44,27 @@ public class UserCon {
         Cookie cookie = new Cookie("token", token);
         cookie.setMaxAge(60 * 60 * 24 * 30 * 6);
         response.addCookie(cookie);
-        return "redirect:/";
+        return ResultDTO.getSuccessResult();
     }
+
+    /*@ResponseBody
+    @PostMapping("/regist")
+    public ResultDTO regist(@RequestBody UserDTO userDTO, Map<String, Object> map, HttpServletResponse response) {
+
+        ResultDTO resultDTO = userSev.verifyUserInfo(userDTO);  // 登录信息校验
+        if (resultDTO != null) {    // 校验错误
+            return resultDTO;
+        }
+        User session_user = userSev.createUser(userDTO);
+        String token = UUID.randomUUID().toString();
+        session_user.setToken(token);
+        userSev.updateTooken(session_user.getUid(), token);
+        map.put("session_user", session_user);
+        Cookie cookie = new Cookie("token", token);
+        cookie.setMaxAge(60 * 60 * 24 * 30 * 6);
+        response.addCookie(cookie);
+        return ResultDTO.getSuccessResult();
+    }*/
 
     /**
      * 登出

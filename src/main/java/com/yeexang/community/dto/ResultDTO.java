@@ -62,6 +62,21 @@ public class ResultDTO<T> {
         return resultDTO;
     }
 
+    /**
+     * 请求失败并返回数据和错误信息
+     * @param errorMsg
+     * @param data
+     * @param <T>
+     * @return ResultDTO
+     */
+    public static <T> ResultDTO<T> getErrorResult(String errorMsg, T data) {
+        ResultDTO<T> resultDTO = new ResultDTO<>();
+        resultDTO.setStatus(false);
+        resultDTO.setErrorMsg(errorMsg);
+        resultDTO.setData(data);
+        return resultDTO;
+    }
+
     private ResultDTO() {
     }
 

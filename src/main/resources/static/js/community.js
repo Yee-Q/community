@@ -140,3 +140,46 @@ function showSelectTag() {
 
     $("#select-tag").show();
 }
+
+/**
+ * 登录
+ */
+function signin() {
+
+    let username = $("#inputUserName").val();
+    let password = $("#inputPassword").val();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        url: "/signin",
+        data: JSON.stringify({
+            "userName": username,
+            "password": password,
+            "flag": true
+        }),
+        success: function (resultDTO) {
+            if (resultDTO.status) {
+                window.location.reload();
+            } else {
+                let errorMsg = resultDTO.errorMsg;
+                if (errorMsg != null) {
+                    if (errorMsg == "userNameIsNull") {
+                        $("#usernameErrorMsg").text("用户名不能为空");
+                    } else if (errorMsg == "userNameIsOutOfRange") {
+                        $("#usernameErrorMsg").text("用户名长度为 3 - 7 位");
+                    } else if (errorMsg == "passwordIsNull") {
+                        $("#passwordErrorMsg").text("密码不能为空");
+                    } else if (errorMsg == "passwordIsOutOfRange") {
+                        $("#passwordErrorMsg").text("密码长度为 3 - 7 位");
+                    } else if (errorMsg == "userIsNotExist") {
+                        $("#usernameErrorMsg").text("用户名不存在");
+                    } else if (errorMsg == "passwordError") {
+                        $("#passwordErrorMsg").text("密码错误");
+                    }
+                }
+            }
+        }
+    });
+}

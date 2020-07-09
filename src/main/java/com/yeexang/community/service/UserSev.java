@@ -1,11 +1,15 @@
 package com.yeexang.community.service;
 
 import com.yeexang.community.dto.ResultDTO;
+import com.yeexang.community.dto.UserDTO;
 import com.yeexang.community.mapper.UserMapper;
 import com.yeexang.community.pojo.User;
 import com.yeexang.community.utils.ErrorConstant;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class UserSev {
@@ -14,39 +18,66 @@ public class UserSev {
     private UserMapper userMapper;
 
     /**
-     * 校验登录信息
-     *
-     * @return
+     * 校验用户信息格式
+     * @return ResultDTO
      */
-    public ResultDTO verifySigninInfo(User user) {
-        if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
-            return ResultDTO.getErrorResult(ErrorConstant.USERNAME_IS_NULL);
-        } else if (user.getUserName().length() < 3 || user.getUserName().length() > 7) {
-            return ResultDTO.getErrorResult(ErrorConstant.USERNAME_IS_OUT_OF_RANGE);
-        } else if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-            return ResultDTO.getErrorResult(ErrorConstant.PASSWORD_IS_NULL);
-        } else if (user.getPassword().length() < 3 || user.getPassword().length() > 9) {
-            return ResultDTO.getErrorResult(ErrorConstant.PASSWORD_IS_OUT_OF_RANGE);
+    public ResultDTO verifyUserInfo(UserDTO userDTO) {
+        if (userDTO.getUserName() == null || userDTO.getUserName().trim().isEmpty()) {
+            return ResultDTO.getErrorResult(ErrorConstant.USERNAME_IS_NULL, userDTO);
+        } else if (userDTO.getUserName().length() < 3 || userDTO.getUserName().length() > 7) {
+            return ResultDTO.getErrorResult(ErrorConstant.USERNAME_IS_OUT_OF_RANGE, userDTO);
+        } else if (userDTO.getPassword() == null || userDTO.getPassword().trim().isEmpty()) {
+            return ResultDTO.getErrorResult(ErrorConstant.PASSWORD_IS_NULL, userDTO);
+        } else if (userDTO.getPassword().length() < 3 || userDTO.getPassword().length() > 9) {
+            return ResultDTO.getErrorResult(ErrorConstant.PASSWORD_IS_OUT_OF_RANGE, userDTO);
         } else {
-            User user1 = userMapper.selectUserByUserName(user.getUserName());
-            if (user1 == null) {
-                return ResultDTO.getErrorResult(ErrorConstant.USER_IS_NOT_EXIST);
+            if (userDTO.isFlag()) { // 用户登录
+                return verifySigninInfo(userDTO);
+            } else {   // 用户注册
+                return verifyRegistInfo(userDTO);
             }
-            if (!user.getPassword().equals(user1.getPassword())) {
-                return ResultDTO.getErrorResult(ErrorConstant.PASSWORD_ERROR);
-            }
+        }
+    }
+
+    /**
+     * 校验注册信息
+     * @param userDTO
+     * @return ResultDTO
+     */
+    @Nullable
+    private ResultDTO verifyRegistInfo(UserDTO userDTO) {
+        User user1 = userMapper.selectUserByUserName(userDTO.getUserName());
+        if (user1 != null) {
+            return ResultDTO.getErrorResult(ErrorConstant.USER_IS_ALREADY_EXIST, userDTO);
+        }
+        return null;
+    }
+
+    /**
+     * 检验登录信息
+     * @param userDTO
+     * @return ResultDTO
+     */
+    @Nullable
+    public ResultDTO verifySigninInfo(UserDTO userDTO) {
+        User user1 = userMapper.selectUserByUserName(userDTO.getUserName());
+        if (user1 == null) {
+            return ResultDTO.getErrorResult(ErrorConstant.USER_IS_NOT_EXIST, userDTO);
+        }
+        if (!userDTO.getPassword().equals(user1.getPassword())) {
+            return ResultDTO.getErrorResult(ErrorConstant.PASSWORD_ERROR, userDTO);
         }
         return null;
     }
 
     /**
      * 根据用户名返回用户
-     * @param user
+     * @param userDTO
      * @return
      */
-    public User getUserByUname(User user) {
+    public User getUserByUname(UserDTO userDTO) {
 
-        User user1 = userMapper.selectUserByUserName(user.getUserName());
+        User user1 = userMapper.selectUserByUserName(userDTO.getUserName());
         return user1;
     }
 
@@ -58,4 +89,22 @@ public class UserSev {
     public void updateTooken(Long uid, String token) {
         userMapper.updateTookenByUid(uid, token);
     }
+
+    /**
+     * 添加用户信息
+     * @param userDTO
+     * @return
+     */
+    /*public User createUser(UserDTO userDTO) {
+
+        User user = new User();
+        user.setUserName(userDTO.getUserName());
+        user.setPassword(userDTO.getPassword());
+        user.setToken(UUID.randomUUID().toString());
+        user.setGmtCreate(System.currentTimeMillis());
+        user.setGmtModified(System.currentTimeMillis());
+        user.setAvatarUrl();
+
+        userMapper.createUser();
+    }*/
 }

@@ -69,4 +69,8 @@ public class ErrorConstant {
      * 通知信息不存在
      */
     public static final String NOTIFICATION_NOT_FOUND = "NotificationNotFound";
+    /**
+     * 用户名已经存在
+     */
+    public static final String USER_IS_ALREADY_EXIST = "UserIsAlreadyExist";
 }

@@ -22,10 +22,10 @@
                                 <a href="/">首页</a>
                             </li>
                             <li>
-                                <a href="#">注册</a>
+                                <a data-toggle="modal" data-target="#register" href="">注册</a>
                             </li>
                             <li>
-                                <a href="/signin">登录</a>
+                                <a data-toggle="modal" data-target="#signin" href="">登录</a></li>
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right" th:if="${session.session_user != null}">
