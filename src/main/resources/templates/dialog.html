@@ -19,14 +19,17 @@
                     <div class="form-group">
                         <label for="inputRegistUserName">用户名</label>
                         <input class="form-control" id="inputRegistUserName" type="text" placeholder="3-7位字母或数字" />
+                        <span id="usernameRegisterErrorMsg" style="color: red"></span>
                     </div>
                     <div class="form-group">
                         <label for="inputRegistPassword">密码</label>
                         <input class="form-control" id="inputRegistPassword" type="password" placeholder="3-9位字母或数字" />
+                        <span id="passwordRegisterErrorMsg" style="color: red"></span>
                     </div>
                     <div class="form-group">
                         <label for="loadHeadPortrait">头像</label>
                         <input type="file" id="loadHeadPortrait" />
+                        <span id="fileRegisterErrorMsg" style="color: red"></span>
                     </div>
                     <div class="text-right">
                         <button class="btn btn-primary" type="submit" onclick="register()">提交</button>

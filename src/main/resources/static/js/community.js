@@ -195,6 +195,10 @@ function register() {
     let password = $("#inputRegistPassword").val();
     let file = $('#loadHeadPortrait').get(0).files[0]
 
+    if (file == null) {
+        $("#fileRegisterErrorMsg").text("请选择上传图片");
+    }
+
     formData.append('file', file);
     formData.append('userDTO', JSON.stringify({
         "userName": username,
@@ -207,10 +211,29 @@ function register() {
         dataType: "formData",
         processData: false,
         contentType: false,
-        url: "/regist",
+        url: "/register",
         data: formData,
-        success: function (data) {
-            alert("aaaaaaaa")
+        success: function (resultDTO) {
+            if (resultDTO.status) {
+                window.location.reload();
+            } else {
+                let errorMsg = resultDTO.errorMsg;
+                if (errorMsg != null) {
+                    if (errorMsg === "userNameIsNull") {
+                        $("#usernameRegisterErrorMsg").text("用户名不能为空");
+                    } else if (errorMsg === "userNameIsOutOfRange") {
+                        $("#usernameRegisterErrorMsg").text("用户名长度为 3 - 7 位");
+                    } else if (errorMsg === "passwordIsNull") {
+                        $("#passwordRegisterErrorMsg").text("密码不能为空");
+                    } else if (errorMsg === "passwordIsOutOfRange") {
+                        $("#passwordRegisterErrorMsg").text("密码长度为 3 - 7 位");
+                    } else if (errorMsg === "UserIsAlreadyExist") {
+                        $("#usernameSigninErrorMsg").text("用户名已经存在");
+                    } else if (errorMsg === "ProfileImgNotLoad") {
+                        $("#fileRegisterErrorMsg").text("请选择上传图片");
+                    }
+                }
+            }
         }
     });
 }

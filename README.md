@@ -45,5 +45,6 @@ https://www.runoob.com/html/html5-webstorage.html   // 菜鸟教程
 js函数可以使用在某行加上 debugger; 作为断点
 使用 alibaba 的 fastJson 可以完成对象与 JSON 格式的转换 JSONObject
 使用 formData 异步传输不同格式的数据
+jquery 获取文件对象 let file = $('#loadHeadPortrait').get(0).files[0]
 
  

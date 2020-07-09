@@ -56,4 +56,9 @@ public interface UserMapper {
      */
     @Update("UPDATE user SET token = #{token} WHERE uid = #{uid}")
     void updateTookenByUid(Long uid, String token);
+
+    @Insert("INSERT INTO user (user_name,password,gmt_create,gmt_modified,avatar_url,token) " +
+            "values(#{userName},#{password},#{gmtCreate},#{gmtModified},#{avatarUrl},#{token})")
+    void createUser(User user);
+
 }

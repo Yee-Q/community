@@ -73,4 +73,8 @@ public class ErrorConstant {
      * 用户名已经存在
      */
     public static final String USER_IS_ALREADY_EXIST = "UserIsAlreadyExist";
+    /**
+     * 未选择上传的图片
+     */
+    public static final String PROFILE_IMG_NOT_LOAD = "ProfileImgNotLoad";
 }
