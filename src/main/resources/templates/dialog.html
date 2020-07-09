@@ -15,21 +15,21 @@
                 <h1 class="text-center">注册</h1>
             </div>
             <div class="modal-body">
-                <form class="form-group" action="">
+                <form class="form-group" onsubmit="return false" id="registFormAsync">
                     <div class="form-group">
-                        <label>用户名</label>
-                        <input class="form-control" type="text" placeholder="6-15位字母或数字">
+                        <label for="inputRegistUserName">用户名</label>
+                        <input class="form-control" id="inputRegistUserName" type="text" placeholder="3-7位字母或数字" />
                     </div>
                     <div class="form-group">
-                        <label>密码</label>
-                        <input class="form-control" type="password" placeholder="至少6位字母或数字">
+                        <label for="inputRegistPassword">密码</label>
+                        <input class="form-control" id="inputRegistPassword" type="password" placeholder="3-9位字母或数字" />
                     </div>
                     <div class="form-group">
-                        <label>再次输入密码</label>
-                        <input class="form-control" type="password" placeholder="至少6位字母或数字">
+                        <label for="loadHeadPortrait">头像</label>
+                        <input type="file" id="loadHeadPortrait" />
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-primary" type="submit">提交</button>
+                        <button class="btn btn-primary" type="submit" onclick="register()">提交</button>
                         <button class="btn btn-danger" data-dismiss="modal">取消</button>
                     </div>
                     <a href="" data-toggle="modal" data-dismiss="modal" data-target="#login">已有账号？点我登录</a>
@@ -52,16 +52,16 @@
                 <h1 class="text-center">登录</h1>
             </div>
             <div class="modal-body">
-                <form class="form-group" onsubmit="return false" id="formAsync">
+                <form class="form-group" onsubmit="return false" id="signinFormAsync">
                     <div class="form-group">
-                        <label for="inputUserName">用户名</label>
-                        <input class="form-control" type="text" placeholder="请输入用户名" id="inputUserName" name="userName">
-                        <span id="usernameErrorMsg" style="color: red"></span>
+                        <label for="inputSigninUserName">用户名</label>
+                        <input class="form-control" type="text" placeholder="请输入用户名" id="inputSigninUserName" name="userName">
+                        <span id="usernameSigninErrorMsg" style="color: red"></span>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword">密码</label>
-                        <input class="form-control" type="password" id="inputPassword" name="password" placeholder="请输入密码">
-                        <span id="passwordErrorMsg" style="color: red"></span>
+                        <label for="inputSigninPassword">密码</label>
+                        <input class="form-control" type="password" id="inputSigninPassword" name="password" placeholder="请输入密码">
+                        <span id="passwordSigninErrorMsg" style="color: red"></span>
                     </div>
                     <div class="text-right">
                         <button class="btn btn-primary" type="submit" onclick="signin()">登录</button>

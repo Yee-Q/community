@@ -146,8 +146,8 @@ function showSelectTag() {
  */
 function signin() {
 
-    let username = $("#inputUserName").val();
-    let password = $("#inputPassword").val();
+    let username = $("#inputSigninUserName").val();
+    let password = $("#inputSigninPassword").val();
 
     $.ajax({
         type: "POST",
@@ -165,21 +165,52 @@ function signin() {
             } else {
                 let errorMsg = resultDTO.errorMsg;
                 if (errorMsg != null) {
-                    if (errorMsg == "userNameIsNull") {
-                        $("#usernameErrorMsg").text("用户名不能为空");
-                    } else if (errorMsg == "userNameIsOutOfRange") {
-                        $("#usernameErrorMsg").text("用户名长度为 3 - 7 位");
-                    } else if (errorMsg == "passwordIsNull") {
-                        $("#passwordErrorMsg").text("密码不能为空");
-                    } else if (errorMsg == "passwordIsOutOfRange") {
-                        $("#passwordErrorMsg").text("密码长度为 3 - 7 位");
-                    } else if (errorMsg == "userIsNotExist") {
-                        $("#usernameErrorMsg").text("用户名不存在");
-                    } else if (errorMsg == "passwordError") {
-                        $("#passwordErrorMsg").text("密码错误");
+                    if (errorMsg === "userNameIsNull") {
+                        $("#usernameSigninErrorMsg").text("用户名不能为空");
+                    } else if (errorMsg === "userNameIsOutOfRange") {
+                        $("#usernameSigninErrorMsg").text("用户名长度为 3 - 7 位");
+                    } else if (errorMsg === "passwordIsNull") {
+                        $("#passwordSigninErrorMsg").text("密码不能为空");
+                    } else if (errorMsg === "passwordIsOutOfRange") {
+                        $("#passwordSigninErrorMsg").text("密码长度为 3 - 7 位");
+                    } else if (errorMsg === "userIsNotExist") {
+                        $("#usernameSigninErrorMsg").text("用户名不存在");
+                    } else if (errorMsg === "passwordError") {
+                        $("#passwordSigninErrorMsg").text("密码错误");
                     }
                 }
             }
+        }
+    });
+}
+
+/**
+ * 注册
+ */
+function register() {
+
+    let formData = new FormData();
+
+    let username = $("#inputRegistUserName").val();
+    let password = $("#inputRegistPassword").val();
+    let file = $('#loadHeadPortrait').get(0).files[0]
+
+    formData.append('file', file);
+    formData.append('userDTO', JSON.stringify({
+        "userName": username,
+        "password": password,
+        "flag": false
+    }))
+
+    $.ajax({
+        type: "POST",
+        dataType: "formData",
+        processData: false,
+        contentType: false,
+        url: "/regist",
+        data: formData,
+        success: function (data) {
+            alert("aaaaaaaa")
         }
     });
 }

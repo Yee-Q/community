@@ -95,9 +95,9 @@ public class UserSev {
      * @param userDTO
      * @return
      */
-    /*public User createUser(UserDTO userDTO) {
+    public User createUser(UserDTO userDTO) {
 
-        User user = new User();
+        /*User user = new User();
         user.setUserName(userDTO.getUserName());
         user.setPassword(userDTO.getPassword());
         user.setToken(UUID.randomUUID().toString());
@@ -105,6 +105,9 @@ public class UserSev {
         user.setGmtModified(System.currentTimeMillis());
         user.setAvatarUrl();
 
-        userMapper.createUser();
-    }*/
+        userMapper.createUser();*/
+        return null;
+    }
+
+
 }
